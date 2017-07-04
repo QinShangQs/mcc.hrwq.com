@@ -135,6 +135,9 @@ Route::group(['middleware' => 'auth'],function (){
         Route::any('/qiniu_notify', 'VcourseController@qiniu_notify')->name('vcourse.qiniu_notify');
         Route::get('/pfop_status', 'VcourseController@pfop_status')->name('vcourse.pfop_status');
         Route::any('/qiniu_delete', 'VcourseController@qiniu_delete')->name('vcourse.qiniu_delete');
+        
+        Route::get('/sug_link', 'VcourseController@sug_link')->name('vcourse.sug_link');
+        Route::post('/sug_link_create', 'VcourseController@sug_link_create')->name('vcourse.sug_link_create');
     });
 
     /** 订单管理 */

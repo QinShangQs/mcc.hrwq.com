@@ -515,4 +515,22 @@ class VcourseController extends Controller
         $replace = array('-', '_');
         return str_replace($find, $replace, base64_encode($data));
     }
+    
+    function sug_link(){
+    	$data = file_get_contents('/mnt/sug_link.log');
+    	if(!empty($data)){
+    		list($telecast, $foreshow) = explode("\n", $data);
+    	}else{
+    		$telecast = '';
+    		$foreshow = '';
+    	}
+    	return view('vcourse.sug_link_create',['telecast'=>$telecast,'foreshow'=>$foreshow]);
+    }
+    
+    function sug_link_create(Request $request){
+    	$data = $request->input('telecast')."\n".$request['foreshow'];
+    	file_put_contents('/mnt/sug_link.log', $data);
+    	
+    	return redirect()->route('vcourse.sug_link');
+    }
 }

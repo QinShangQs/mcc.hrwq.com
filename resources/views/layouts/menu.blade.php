@@ -112,6 +112,7 @@
                 <li class="left_10"><a href="{{route('carousel')}}">轮播图管理</a></li>
                 <li class="left_10"><a href="{{route('article')}}">文案管理</a></li>
                 <li class="left_10"><a href="{{route('hot_search')}}">热门搜索管理</a></li>
+                <li class="left_10"><a href="{{route('vcourse.sug_link')}}">视频推荐链接</a></li>
             </ul>
         </li>
 
