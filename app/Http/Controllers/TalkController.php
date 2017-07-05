@@ -57,7 +57,7 @@ class TalkController extends Controller
             });
         }
 
-        $data = $builder->orderBy('talk.sort', 'desc')->orderBy('talk.id', 'desc')->paginate(10);
+        $data = $builder->orderBy('talk.created_at', 'desc')->orderBy('talk.id', 'desc')->paginate(10);
 
         foreach ($request->except('page') as $input => $value) {
             if (!empty($value)) {

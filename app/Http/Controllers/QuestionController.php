@@ -88,7 +88,7 @@ class QuestionController extends Controller
             }
         }
 
-        $data = $builder->orderBy('question.sort', 'desc')->paginate(10);
+        $data = $builder->orderBy('question.created_at', 'desc')->paginate(10);
 
         foreach ($request->except('page') as $input => $value) {
             if (!empty($value)) {
