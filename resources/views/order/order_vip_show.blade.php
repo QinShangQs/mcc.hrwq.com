@@ -104,6 +104,20 @@
                     <div class="row">
                         <div class="col-sm-2">
                             <div class="form-group fg-line ">
+                                <label>爱心大使电话</label>
+                                <input type="text" value="{{@$order->lover->mobile}}"  name="consignee"  class="form-control input-sm" disabled="disabled">
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group fg-line ">
+                                <label>爱心大使姓名</label>
+                                <input type="text" value="{{@$order->lover->nickname}}"  class="form-control input-sm" disabled="disabled">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="form-group fg-line ">
                                 <label>付款状态</label>
                                 <select class="selectpicker" size="10" name="order_type" disabled="disabled">
                                     @foreach ($order_type as $key=>$item)

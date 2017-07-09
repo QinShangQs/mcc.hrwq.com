@@ -139,12 +139,26 @@ margin:0px 0px 10px 0px;
                     <div class="row">
                         <div class="col-sm-3">
                             <div class="form-group fg-line ">
+                                <label for="exampleInputEmail1">和会员天数<span id="left_day">({{computer_vip_left_day($user->vip_left_day)}})</span></label>
+                                @if(computer_vip_left_day($user->vip_left_day) > 0)
+                                	<input data-date-format="YYYY-MM-DD" type="text" value="{{ date('Y-m-d',strtotime($user->vip_left_day)) }}" id="vip_left_day" name="vip_left_day"  class="form-control input-sm date-time-picker">
+                                @else
+                                	<input data-date-format="YYYY-MM-DD" type="text" value="" id="vip_left_day" name="vip_left_day"  class="form-control input-sm date-time-picker">
+                                @endif
+                                
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group fg-line ">
                                 <label for="exampleInputEmail1">和会员激活码</label>
                                 <input type="text" value="{{ $user->vip_code }}" name="vip_code"  class="form-control input-sm">
                             </div>
                         </div>
                     </div>
-
+                              
                     <div class="row">
                         <div class="col-sm-3">
                             <div class="form-group fg-line ">
@@ -325,7 +339,27 @@ margin:0px 0px 10px 0px;
 
 @section('script')
     <script type="text/javascript">
+    
+	function getDateDiff(startDate,endDate){  
+	    var startTime = new Date(Date.parse(startDate.replace(/-/g,   "/"))).getTime();     
+	    var endTime = new Date(Date.parse(endDate.replace(/-/g,   "/"))).getTime();     
+	    var dates = Math.abs((startTime - endTime))/(1000*60*60*24);     
+	    return  dates;    
+	}
+                    
+              
 	$(document).ready(function(){
+		$("#vip_left_day").blur(function(){
+			var today = '{{date('Y-m-d')}}';
+			var left_day = $("#vip_left_day").val();
+			if(!left_day){
+				$("#left_day").text('');
+			}else{
+				var days = getDateDiff(today, left_day);
+				$("#left_day").text('('+days+')');
+			}
+		});
+		
 		$("#province").change(function(){
 	            if ($('#province').val()==''||$('#province').val()==undefined) {
 	            	$('#city').val('');

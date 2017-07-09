@@ -218,3 +218,29 @@ if(!function_exists('qiniu_previews')) {
         }
     }
 }
+
+if(!function_exists('computer_vip_left_day')) {
+	/**
+	 * 计算和会员剩余天数
+	 * @param unknown $vip_left_day
+	 * @return string|number
+	 */
+	function computer_vip_left_day($vip_left_day){
+		$left_day = 0;
+		if(!empty($vip_left_day)){
+			$d1 = strtotime(date('Y-m-d'));
+			$d2 = strtotime($vip_left_day);
+			$left_day = round(($d2-$d1)/3600/24);
+		}
+
+		if($left_day < 0){
+			$left_day = 0;
+		}
+
+		if($left_day > 365 * 10){
+			return '永久';
+		}
+
+		return $left_day;
+	}
+}

@@ -50,4 +50,9 @@ class Order extends Model
     {
         return $this->belongsTo('App\Models\User','user_id');
     }
+    
+    public function lover()
+    {
+    	return $this->belongsTo('App\Models\User','lover_id');
+    }
 }

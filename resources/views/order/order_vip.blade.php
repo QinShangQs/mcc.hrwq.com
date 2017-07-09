@@ -37,6 +37,28 @@
                                 <span class="input-group-addon"><i class="zmdi zmdi-caret-down-circle zmdi-hc-fw"></i></span>
                                 <div class="dtp-container fg-line">
                                     <div class="select">
+                                        <select class="selectpicker" name="has_lover">
+                                            <option @if(request('has_lover')=="") selected @endif value="">是否关联爱心大使</option>
+                                            <option @if(request('has_lover')=="1") selected @endif  value="1">是</option>
+                                            <option @if(request('has_lover')=="2") selected @endif  value="2">否</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="zmdi zmdi-account zmdi-hc-fw"></i></span>
+                                <div class="fg-line">
+                                        <input type="text" class="form-control" placeholder="爱心大使手机号/姓名" name='lover_key' value="{{ request('lover_key') }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="input-group form-group">
+                                <span class="input-group-addon"><i class="zmdi zmdi-caret-down-circle zmdi-hc-fw"></i></span>
+                                <div class="dtp-container fg-line">
+                                    <div class="select">
                                         <select class="selectpicker" name="order_type">
                                             <option value="">付款状态</option>
                                             @foreach ($order_type as $k=>$item)
@@ -82,6 +104,7 @@
                         <th>总价<small class="c-red">(元)</small></th>
                         <th>付款状态</th>
                         <th>支付时间</th>
+                        <th>爱心大使手机号/姓名</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -94,6 +117,11 @@
                             <td><strong class="c-red">{{ @$item->total_price }}</strong></td>
                             <td>{{ @$order_type[$item->order_type] }}</td>
                             <td>{{ $item->pay_time }}</td> 
+                            <td>
+                            	@if($item->lover)
+                            		{{ $item->lover->mobile }}/{{ $item->lover->nickname }}
+                            	@endif
+                            </td> 
                             <td>
                                 <a href="{{route('order.order_vip_show',['id'=>$item->id])}}" title="详情"><button class="btn bgm-orange waves-effect"><i class="zmdi zmdi-eye"></i></button></a>
                             </td>

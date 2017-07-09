@@ -471,7 +471,7 @@ class OrderController extends Controller
     public function order_vip(Request $request)
     {
         //关联模型
-        $builder = Order::withTrashed()->with('user')->with("order_vip");
+        $builder = Order::withTrashed()->with('user')->with("order_vip")->with('lover');
 
         //订单号
         if ($order_code = trim($request->input('order_code'))) {
@@ -488,6 +488,20 @@ class OrderController extends Controller
             $builder->whereHas('user', function ($query) use ($consignee_tel) {
                 $query->where('mobile', 'like', '%' . $consignee_tel . '%');
             });
+        }
+        
+        //爱心大使筛选项
+        if ($lover_key = trim($request->input('lover_key'))) {
+        	//dd($lover_key);
+        	$builder->whereHas('lover', function ($query) use ($lover_key) {
+        		$query->where('nickname', 'like', '%' . $lover_key . '%');
+        	})->orWhereHas('lover', function ($query) use ($lover_key) {
+        		$query->where('mobile', 'like', '%' . $lover_key . '%');
+        	});
+        }
+        //关联爱心大使
+        if ($has_lover = trim($request->input('has_lover'))) {
+        	$builder->where('lover_id', ($has_lover == 1  ? '!=':'='), 0);
         }
         //付款状态
         if ($order_type = trim($request->input('order_type'))) {
@@ -523,6 +537,9 @@ class OrderController extends Controller
                     '实际支付金额',
                     '收货人',
                     '地址',
+                	'关联爱心大使',
+                	'爱心大使手机号',
+                	'爱心大使姓名',
                 ],
             ];
             $builder->chunk(100, function($orders) use(&$data, $order_type) {
@@ -541,14 +558,18 @@ class OrderController extends Controller
                         $order->price,
                         $order->order_vip->consignee,
                         $order->order_vip->consignee_address,
+                    	($order->lover?'是':'否'),
+                    	(@$order->lover->mobile),
+                    	(@$order->lover->nickname),
                     ];
                 }
             });
 
             return $this->export('和会员订单列表', $data);
         }
+       
         $data = $builder->paginate(10);
-
+        
         foreach ($request->except('page') as $input => $value) {
             if (!empty($value)) {
                 $data->appends($input, $value);
@@ -561,7 +582,7 @@ class OrderController extends Controller
     /** 和会员订单详情 */
     public function order_vip_show($id)
     {
-        $order = Order::withTrashed()->with('user','order_vip')->wherePayType('6')->find($id);
+        $order = Order::withTrashed()->with('user','order_vip','lover')->wherePayType('6')->find($id);
 
         if ($order == null)
             abort(404, '订单查找失败！');

@@ -78,6 +78,14 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group fg-line ">
+                            <label for="exampleInputEmail1">和会员天数</label>
+                            <input type="text" disabled="disabled" value="{{$user->vip_left_day}} ({{computer_vip_left_day($user->vip_left_day)}}天) " name="vip_left_day"  class="form-control input-sm">
+                        </div>
+                    </div>
+                </div>
 
                 <div class="row">
                     <div class="col-sm-3">

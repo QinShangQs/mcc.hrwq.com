@@ -28,7 +28,6 @@ class UserController extends Controller
             $builder->where('mobile', 'like', '%' . $search_mobile . '%');
         }
 
-
         if ($search_role = trim($request->input('search_role'))) {
             $builder->where('role', '=', $search_role);
         }
@@ -53,6 +52,14 @@ class UserController extends Controller
         if ($search_grow_e = trim($request->input('search_grow_e'))) {
             $builder->where('grow', '<=', $search_grow_e);
         }
+        if($search_left_day_s = trim($request->input('search_left_day_s'))){
+        	$builder->where('vip_left_day','>=' ,date('Y-m-d',strtotime("+ {$search_left_day_s} day")) );
+        }
+        if($search_left_day_e = trim($request->input('search_left_day_e'))){
+        	$builder->where('vip_left_day','<=' , date('Y-m-d',strtotime("+ {$search_left_day_e} day")) );
+        }
+ 
+        
     	//用户
         if ($nickname = trim($request->input('nickname'))) {
             $builder->where('nickname', 'like', '%' . $nickname . '%')->orWhere('realname', 'like', '%' . $nickname . '%');
@@ -83,7 +90,7 @@ class UserController extends Controller
                     '角色', '称呼',
                     '城市',
                     '注册时间', '成长值',
-                    '是否为和会员', '和会员激活码',
+                    '是否为和会员', '和会员激活码','和会员天数'
                 ],
             ];
             $builder->orderBy('id', 'desc')->chunk(100, function($users) use(&$data, $arrArea, $user_role, $user_label, $user_vip_flg) {
@@ -94,6 +101,7 @@ class UserController extends Controller
                             ($user->province ? ($arrArea[$user->province] ?: '') : '').($user->city ? ($arrArea[$user->city] ?: '') : ''),
                             $user->created_at, $user->grow,
                             $user->vip_flg ? ($user_vip_flg[$user->vip_flg] ?: '') : '', $user->vip_code,
+                        	computer_vip_left_day($user->vip_left_day)
                         ];
                 }
             });
@@ -213,7 +221,7 @@ class UserController extends Controller
         $user->vip_code = $request->input('vip_code');
         $user->block = $request->input('block');
         $user->sort = $request->input('sort')?$request->input('sort'):null;
-
+		$user->vip_left_day = $request->input('vip_left_day');
         if ($user->save()) {
             if (($originalRole == 1 || $originalRole == 3) && $request->input('role') == 2) {
                 //发送微信模板消息通知

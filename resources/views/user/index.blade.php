@@ -160,6 +160,26 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        <div class="col-sm-2">
+                            <div class="input-group form-group">
+                                <span class="input-group-addon"><i class="zmdi zmdi-trending-up"></i></span>
+                                <div class="dtp-container fg-line">
+                                    <input type="text" class="form-control" placeholder="和会员天数(大于)" name='search_left_day_s'
+                                           value="{{ request('search_left_day_s') }}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="input-group form-group">
+                                <span class="input-group-addon"><i class="zmdi zmdi-trending-up"></i></span>
+                                <div class="dtp-container fg-line">
+                                    <input type="text" class="form-control" placeholder="和会员天数(小于)" name='search_left_day_e'
+                                           value="{{ request('search_left_day_e') }}">
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="col-sm-2 text-right">
                             <button type="submit" class="btn btn-primary btn-sm  waves-effect">搜索</button>
@@ -185,6 +205,7 @@
                         <th>成长值</th>
                         <th>是否为和会员</th>
                         <th>和会员激活码</th>
+                        <th>和会员天数</th>
                         <th>排序</th>
                         <th>操作</th>
                         <th>禁用/启用</th>
@@ -205,6 +226,7 @@
                                 <td>{{$item->grow}}</td>
                                 <td>@if($item->vip_flg){{$user_vip_flg[$item->vip_flg]}}@endif</td>
                                 <td>{{$item->vip_code}}</td>
+                                <td>{{computer_vip_left_day($item->vip_left_day)}}</td>
                                 <th>{{$item->sort}}</th>
                                 <td>
                                     <a href="{{ route('user.show',['id'=>$item->id]) }}" title="详情">
