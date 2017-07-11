@@ -96,6 +96,33 @@
                     </div>
                 </div>
 
+                @if($lover)
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group fg-line ">
+                            <label for="exampleInputEmail1">爱心大使用户ID</label>
+                            <input type="text" disabled="disabled" value="{{$user->lover_id}}"  class="form-control input-sm">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group fg-line ">
+                            <label for="exampleInputEmail1">爱心大使</label>                            
+                            <input type="text" disabled="disabled" value="{{$lover->nickname}} / {{$lover->mobile}}"  class="form-control input-sm">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group fg-line ">
+                            <label for="exampleInputEmail1">爱心大使关联时间</label>
+                            <input type="text" disabled="disabled" value="{{$user->lover_time}}"  class="form-control input-sm">
+                        </div>
+                    </div>
+                </div>
+                @endif
+                
                 <div class="row">
                     <div class="col-sm-3">
                         <div class="form-group fg-line ">

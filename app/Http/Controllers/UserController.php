@@ -330,8 +330,10 @@ class UserController extends Controller
         // 孩子性别
         $user_sex = config('constants.user_sex');
 
+        $lover = $user->lover_id == 0 ? null : (User::find($user->lover_id));
 
-        return view('user.show', ['user' => $user, 'user_role' => $user_role, 'user_label' => $user_label, 'user_vip_flg' => $user_vip_flg, 'areas' => $arrArea, 'user_sex' => $user_sex]);
+        return view('user.show', ['user' => $user, 'user_role' => $user_role, 'user_label' => $user_label, 'user_vip_flg' => $user_vip_flg, 
+        		'areas' => $arrArea, 'user_sex' => $user_sex,'lover'=>$lover]);
     }
 
     // 合伙人审核列表
