@@ -71,6 +71,13 @@ Route::group(['middleware' => 'auth'],function (){
         Route::post('/create', 'AgencyController@store')->name('agency.store');
 
     });
+    
+    	/** 留言管理 */
+    	Route::group(['prefix'=>'leaveword'], function (){
+    		Route::get('/', 'LeaveWordController@index')->name('leaveword.index');
+    		Route::get('/show/{id}', 'LeaveWordController@show')->name('leaveword.show');
+    		Route::post('/delete', 'LeaveWordController@delete')->name('leaveword.delete');
+    	});
 
     /* 线下活动课程管理*/
     Route::group(['prefix'=>'course'], function (){

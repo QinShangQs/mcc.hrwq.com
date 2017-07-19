@@ -19,6 +19,7 @@
                 <li class="left_10"><a href="{{route('user.index')}}">用户信息管理</a></li>
                 <li class="left_10"><a href="{{route('user.tutor')}}">指导师审核管理</a></li>
                 <li class="left_10"><a href="{{route('user.partner')}}">合伙人审核管理</a></li>
+                <li class="left_10"><a href="{{route('leaveword.index')}}">留言管理</a></li>
             </ul>
         </li>
         <li class="sub-menu sed_menu">
