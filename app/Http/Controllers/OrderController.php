@@ -517,8 +517,8 @@ class OrderController extends Controller
         }
 
         $builder->wherePayType('6');
-        $builder->orderBy('order.id', 'desc');
-
+        //$builder->orderBy('order.id', 'desc')->orderBy('pay_time','desc');
+        $builder->orderBy('pay_time','desc');
         //付款状态
         $order_type = config('constants.order_type_vip');
 
