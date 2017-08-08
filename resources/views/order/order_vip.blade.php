@@ -8,6 +8,48 @@
             <div class="card-header card-padding">
                 <form action="{{ route('order.order_vip') }}" method='GET'>
                     <div class="row">
+                    	<div class="col-sm-2">
+                            <div class="input-group form-group">
+                                <span class="input-group-addon"><i
+                                            class="zmdi zmdi-caret-down-circle zmdi-hc-fw"></i></span>
+                                <div class="dtp-container fg-line">
+                                    <div class="select">
+                                        <select class="selectpicker" name="search_province"
+                                                onchange="getcity(this.value)">
+                                            <option value="">全部省</option>
+                                            @foreach($areaPs as $areaP)
+                                                <option value="{{$areaP->area_id}}"
+                                                        @if($areaP->area_id == request('search_province')) selected @endif >{{$areaP->area_name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="input-group form-group">
+                                <span class="input-group-addon"><i
+                                            class="zmdi zmdi-caret-down-circle zmdi-hc-fw"></i></span>
+                                <div class="dtp-container fg-line">
+                                    <div class="select">
+                                            <span id="areaC">
+                                                <select class="selectpicker" name="search_city">
+                                                    <option value="">全部市</option>
+                                                    @if($areaC_search)
+                                                        @foreach($areaC_search as $areaC)
+                                                            <option value="{{$areaC->area_id}}"
+                                                                    @if($areaC->area_id == request('search_city')) selected @endif >{{$areaC->area_name}}</option>
+                                                        @endforeach
+                                                    @endif
+                                                </select>
+                                            </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    
+                    
                         <div class="col-sm-2">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="zmdi zmdi-account zmdi-hc-fw"></i></span>
@@ -100,6 +142,7 @@
                     <tr>
                         <th>订单号</th>
                         <th>用户</th>
+                        <th>城市</th>
                         <th>手机号</th>
                         <th>总价<small class="c-red">(元)</small></th>
                         <th>付款状态</th>
@@ -113,6 +156,7 @@
                         <tr id="b{{$item->id}}">
                             <td>{{ $item->order_code }}</td>
                             <td>{{ @$item->user->nickname }}</td>
+                            <td>@if($item->user->province){{$areas[$item->user->province]}}@endif @if($item->user->city){{$areas[$item->user->city]}}@endif</td>
                             <td>{{ @$item->user->mobile }}</td>
                             <td><strong class="c-red">{{ @$item->total_price }}</strong></td>
                             <td>{{ @$order_type[$item->order_type] }}</td>
@@ -136,6 +180,23 @@
 @endsection
 
 @section('script')
+<!-- 获取城市 -->
+    <script type="text/javascript">
+        function getcity(obj) {
+            var city = "<select  class='selectpicker' id='search_city' name='search_city'>";
+            var arrcity = new Array();
+            arrcity = <?php print_r($arrareaCs); ?>;
+            arrcity = arrcity[obj];
+            console.log(arrcity);
+            for (var i in arrcity) {
+                city += "<option value='" + arrcity[i]['area_id'] + "'>" + arrcity[i]['area_name'] + "</option>";
+            }
+            city += "</select>";
+            console.log(city);
+            document.getElementById("areaC").innerHTML = city;
+            $('#search_city').selectpicker();
+        }
+    </script>
     <script type="text/javascript">
         $(function() {
             $('form:first .btn-success:last').click(function() {

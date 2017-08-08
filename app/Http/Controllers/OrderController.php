@@ -477,6 +477,18 @@ class OrderController extends Controller
         if ($order_code = trim($request->input('order_code'))) {
             $builder->where('order_code', '=', $order_code);
         }
+        
+        if ($search_province = trim($request->input('search_province'))) {
+        	$builder->whereHas('user', function ($query) use ($search_province) {
+        		$query->where('province', '=', $search_province);
+        	});
+        }
+        if ($search_city = trim($request->input('search_city'))) {
+        	$builder->whereHas('user', function ($query) use ($search_city) {
+        		$query->where('city', '=', $search_city);
+        	});
+        }
+        
         //用户名称
         if ($nickname = trim($request->input('nickname'))) {
             $builder->whereHas('user', function ($query) use ($nickname) {
@@ -522,9 +534,16 @@ class OrderController extends Controller
         //付款状态
         $order_type = config('constants.order_type_vip');
 
+        // 城市(所有的省以及市)
+        $areas = Area::select('area_id', 'area_name')->get();
+        $arrArea = array();
+        foreach ($areas as &$value) {
+        	$arrArea[$value['area_id']] = $value['area_name'];
+        }
+        
         if ($request->input('export')) {
             $data = [
-                [   '订单号', '用户',
+                [   '订单号', '用户','城市',
                     '总价(元)', 
                     '付款状态', '支付时间',
                     '手机号',
@@ -542,10 +561,11 @@ class OrderController extends Controller
                 	'爱心大使姓名',
                 ],
             ];
-            $builder->chunk(100, function($orders) use(&$data, $order_type) {
+            $builder->chunk(100, function($orders) use(&$data, $order_type, $arrArea) {
                 if ($orders) foreach ($orders as $order) {
                     $data[] = [
                         $order->order_code, $order->user->nickname, 
+                    	$arrArea[$order->user->province]." ".$arrArea[$order->user->city],
                         $order->free_flg == 2 ? $order->total_price : '免费',
                         @$order_type[$order->order_type], $order->pay_time,
                         $order->user->mobile,
@@ -576,7 +596,34 @@ class OrderController extends Controller
             }
         }
 
-        return view('order.order_vip', compact('data', 'order_type'));
+        
+        // 省
+        $areaPs = Area::select('area_id', 'area_name')->where('area_deep', '=', 1)->get();
+        
+        // 获得选中省下面的城市
+        $areaC_search = null;
+        if ($search_province = trim($request->input('search_province'))) {
+        	$areaC_search = Area::select('area_id', 'area_name')->where('area_parent_id', $search_province)->get();
+        }
+        
+        // 市
+        $arrareaCs = array();
+        $arrareaCs2 = array();
+        if ($areaPs) {
+        	$arrareaCs = $areaPs->toArray();
+        	foreach ($arrareaCs as &$value) {
+        		$areaCs = Area::select('area_id', 'area_name')->where('area_parent_id', $value['area_id'])->get();
+        		$arrareaC = array();
+        		if ($areaCs) {
+        			$arrareaC = $areaCs->toArray();
+        		}
+        		$arrareaCs2[$value['area_id']] = $arrareaC;
+        	}
+        }
+        $arrareaCs = json_encode($arrareaCs2);
+        
+        return view('order.order_vip', ['data'=>$data, 'order_type'=>$order_type,'areas' => $arrArea, 'areaPs' => $areaPs,
+            'areaC_search' => $areaC_search, 'arrareaCs' => $arrareaCs]);
     }
 
     /** 和会员订单详情 */
