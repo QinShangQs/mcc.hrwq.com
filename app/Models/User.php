@@ -31,9 +31,13 @@ class User extends Model
         return $this->hasMany('App\Models\UserBalance','user_id');
     }
 
-
     public function user_point()
     {
         return $this->hasMany('App\Models\UserPoint','user_id');
+    }
+    
+    public function lover()
+    {
+    	return $this->belongsTo('App\Models\User','lover_id');
     }
 }

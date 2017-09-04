@@ -22,7 +22,7 @@ class UserController extends Controller
     // 用户列表
     public function index(Request $request)
     {
-        $builder = User::select('user.*');
+        $builder = User::select('user.*')->with('lover');
 
         if ($search_mobile = trim($request->input('search_mobile'))) {
             $builder->where('mobile', 'like', '%' . $search_mobile . '%');
@@ -58,7 +58,16 @@ class UserController extends Controller
         if($search_left_day_e = trim($request->input('search_left_day_e'))){
         	$builder->where('vip_left_day','<=' , date('Y-m-d',strtotime("+ {$search_left_day_e} day")) );
         }
- 
+        
+        //爱心大使
+        if ($lover_key = trim($request->input('lover_key'))) {
+        	$builder->whereHas('lover', function ($query) use ($lover_key) {
+        		$query->where('nickname', 'like', '%' . $lover_key . '%')
+        			->orWhere('mobile', 'like', '%' . $lover_key . '%');
+        			//->orWhere('realname', 'like', '%' . $lover_key . '%');
+        	});
+        		
+        }
         
     	//用户
         if ($nickname = trim($request->input('nickname'))) {

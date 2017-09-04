@@ -180,6 +180,16 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        <div class="col-sm-2">
+                            <div class="input-group form-group">
+                                <span class="input-group-addon"><i class="zmdi zmdi-search"></i></span>
+                                <div class="dtp-container fg-line">
+                                    <input type="text" class="form-control" placeholder="爱心大使昵称/手机" name='lover_key'
+                                           value="{{ request('lover_key') }}">
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="col-sm-2 text-right">
                             <button type="submit" class="btn btn-primary btn-sm  waves-effect">搜索</button>
@@ -204,9 +214,8 @@
                         <th>注册时间</th>
                         <th>成长值</th>
                         <th>是否为和会员</th>
-                        <th>和会员激活码</th>
                         <th>和会员天数</th>
-                        <th>排序</th>
+                        <th>爱心大使</th>
                         <th>操作</th>
                         <th>禁用/启用</th>
                     </tr>
@@ -225,9 +234,8 @@
                                 <td>{{$item->created_at}}</td>
                                 <td>{{$item->grow}}</td>
                                 <td>@if($item->vip_flg){{$user_vip_flg[$item->vip_flg]}}@endif</td>
-                                <td>{{$item->vip_code}}</td>
                                 <td>{{computer_vip_left_day($item->vip_left_day)}}</td>
-                                <th>{{$item->sort}}</th>
+                                <td>@if($item->lover){{$item->lover->nickname}}/{{$item->lover->mobile}}@endif</td>
                                 <td>
                                     <a href="{{ route('user.show',['id'=>$item->id]) }}" title="详情">
                                         <button class="btn bgm-orange waves-effect"><i
