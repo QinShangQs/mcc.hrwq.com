@@ -565,7 +565,7 @@ class OrderController extends Controller
                 if ($orders) foreach ($orders as $order) {
                     $data[] = [
                         $order->order_code, $order->user->nickname, 
-                    	$arrArea[$order->user->province]." ".$arrArea[$order->user->city],
+                    	@$arrArea[@$order->user->province]." ".@$arrArea[@$order->user->city],
                         $order->free_flg == 2 ? $order->total_price : '免费',
                         @$order_type[$order->order_type], $order->pay_time,
                         $order->user->mobile,
