@@ -41,10 +41,10 @@ class UserController extends Controller
             $builder->where('vip_flg', '=', $search_vip);
         }
         if ($search_time_s = trim($request->input('search_time_s'))) {
-            $builder->where('created_at', '>=', $search_time_s);
+            $builder->where('register_at', '>=', $search_time_s);
         }
         if ($search_time_e = trim($request->input('search_time_e'))) {
-            $builder->where('created_at', '<=', $search_time_e);
+            $builder->where('register_at', '<=', $search_time_e);
         }
         if ($search_grow_s = trim($request->input('search_grow_s'))) {
             $builder->where('grow', '>=', $search_grow_s);
@@ -99,7 +99,8 @@ class UserController extends Controller
                     '角色', '称呼',
                     '城市',
                     '注册时间', '成长值',
-                    '是否为和会员', '和会员激活码','和会员天数'
+                    '是否为和会员', '和会员激活码','和会员天数',
+                	'爱心大使昵称','爱心大使手机号',
                 ],
             ];
             $builder->orderBy('id', 'desc')->chunk(100, function($users) use(&$data, $arrArea, $user_role, $user_label, $user_vip_flg) {
@@ -110,7 +111,9 @@ class UserController extends Controller
                             ($user->province ? ($arrArea[$user->province] ?: '') : '').($user->city ? ($arrArea[$user->city] ?: '') : ''),
                             $user->created_at, $user->grow,
                             $user->vip_flg ? ($user_vip_flg[$user->vip_flg] ?: '') : '', $user->vip_code,
-                        	computer_vip_left_day($user->vip_left_day)
+                        	computer_vip_left_day($user->vip_left_day),
+                        	@$user->lover->nickname,
+                        	@$user->lover->mobile
                         ];
                 }
             });

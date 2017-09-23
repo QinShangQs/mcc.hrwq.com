@@ -55,12 +55,21 @@
                 <div class="row">
                     <div class="col-sm-3">
                         <div class="form-group fg-line ">
-                            <label for="exampleInputEmail1">注册时间</label>
+                            <label for="exampleInputEmail1">首次登陆时间</label>
                             <input type="text" disabled="disabled" value="{{ $user->created_at }}" name="created_at"  class="form-control input-sm">
                         </div>
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group fg-line ">
+                            <label for="exampleInputEmail1">注册时间</label>
+                            <input type="text" disabled="disabled" value="{{ $user->register_at }}" name="created_at"  class="form-control input-sm">
+                        </div>
+                    </div>
+                </div>
+                
                 <div class="row">
                     <div class="col-sm-3">
                         <div class="form-group fg-line ">

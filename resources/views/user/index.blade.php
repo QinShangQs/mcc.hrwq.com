@@ -211,6 +211,7 @@
                         <th>角色</th>
                         <th>称呼</th>
                         <th>城市</th>
+                        <th>首次登陆时间</th>
                         <th>注册时间</th>
                         <th>成长值</th>
                         <th>是否为和会员</th>
@@ -232,6 +233,7 @@
                                 <td>@if($item->label){{$user_label[$item->label]}}@endif</td>
                                 <td>@if($item->province){{$areas[$item->province]}}@endif @if($item->city){{$areas[$item->city]}}@endif</td>
                                 <td>{{$item->created_at}}</td>
+                                <td>{{$item->register_at}}</td>
                                 <td>{{$item->grow}}</td>
                                 <td>@if($item->vip_flg){{$user_vip_flg[$item->vip_flg]}}@endif</td>
                                 <td>{{computer_vip_left_day($item->vip_left_day)}}</td>
