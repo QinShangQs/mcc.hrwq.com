@@ -190,6 +190,42 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        <div class="col-sm-2">
+                            <div class="input-group form-group">
+                                <span class="input-group-addon"><i
+                                            class="zmdi zmdi-caret-down-circle zmdi-hc-fw"></i></span>
+                                <div class="dtp-container fg-line">
+                                    <div class="select">
+                                        <select class="selectpicker" name="search_lover">
+                                            <option value="">是否关联爱心大使</option>
+                                            <option value="yes" @if(request('search_lover') == 'yes') selected @endif >是</option>
+                                            <option value="no" @if(request('search_lover') == 'no') selected @endif >否</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-sm-2">
+                            <div class="input-group form-group">
+                                <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
+                                <div class="dtp-container fg-line">
+                                    <input type="text" class="form-control date-picker" placeholder="关联爱心大使时间（开始）"
+                                           name='search_lover_time_s' value="{{ request('search_lover_time_s') }}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="input-group form-group">
+                                <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
+                                <div class="dtp-container fg-line">
+                                    <input type="text" class="form-control date-picker" placeholder="关联爱心大使时间（结束）"
+                                           name='search_lover_time_e' value="{{ request('search_lover_time_e') }}">
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="col-sm-2 text-right">
                             <button type="submit" class="btn btn-primary btn-sm  waves-effect">搜索</button>

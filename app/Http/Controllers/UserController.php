@@ -59,6 +59,18 @@ class UserController extends Controller
         	$builder->where('vip_left_day','<=' , date('Y-m-d',strtotime("+ {$search_left_day_e} day")) );
         }
         
+        if ($search_lover = trim($request->input('search_lover'))) {
+        	$builder->where('lover_id', ($search_lover == 'yes' ? '!=':'='), 0);
+        }
+        
+        if ($search_lover_time_s = trim($request->input('search_lover_time_s'))) {
+        	$builder->where('lover_time', '>=', $search_lover_time_s ." 00:00:00");
+        }
+        if ($search_lover_time_e = trim($request->input('search_lover_time_e'))) {
+        	$builder->where('lover_time', '<=', $search_lover_time_e ." 23:59:59");
+        }
+        
+        
         //爱心大使
         if ($lover_key = trim($request->input('lover_key'))) {
         	$builder->whereHas('lover', function ($query) use ($lover_key) {
