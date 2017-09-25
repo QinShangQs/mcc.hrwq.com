@@ -198,7 +198,7 @@
                                 <div class="dtp-container fg-line">
                                     <div class="select">
                                         <select class="selectpicker" name="search_lover">
-                                            <option value="">是否关联爱心大使</option>
+                                            <option value="" @if(request('search_lover') == '') selected @endif>是否关联爱心大使</option>
                                             <option value="yes" @if(request('search_lover') == 'yes') selected @endif >是</option>
                                             <option value="no" @if(request('search_lover') == 'no') selected @endif >否</option>
                                         </select>
