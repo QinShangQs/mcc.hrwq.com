@@ -72,12 +72,20 @@ Route::group(['middleware' => 'auth'],function (){
 
     });
     
-    	/** 留言管理 */
-    	Route::group(['prefix'=>'leaveword'], function (){
-    		Route::get('/', 'LeaveWordController@index')->name('leaveword.index');
-    		Route::get('/show/{id}', 'LeaveWordController@show')->name('leaveword.show');
-    		Route::post('/delete', 'LeaveWordController@delete')->name('leaveword.delete');
-    	});
+    /** 留言管理 */
+    Route::group(['prefix'=>'leaveword'], function (){
+    	Route::get('/', 'LeaveWordController@index')->name('leaveword.index');
+    	Route::get('/show/{id}', 'LeaveWordController@show')->name('leaveword.show');
+    	Route::post('/delete', 'LeaveWordController@delete')->name('leaveword.delete');
+    });
+    
+    /** 微信消息管理 */
+    Route::group(['prefix'=>'wechat_push'], function (){
+    	Route::get('/', 'WechatPushController@index')->name('wechat_push.index');
+    	Route::get('/create', 'WechatPushController@create')->name('wechat_push.create');
+    	Route::post('/store', 'WechatPushController@store')->name('wechat_push.store');
+    	Route::post('/delete', 'WechatPushController@delete')->name('wechat_push.delete');
+    });
 
     /* 线下活动课程管理*/
     Route::group(['prefix'=>'course'], function (){
