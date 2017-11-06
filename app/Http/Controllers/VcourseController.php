@@ -517,7 +517,11 @@ class VcourseController extends Controller
     }
     
     function sug_link(){
-    	$data = file_get_contents('/mnt/sug_link.log');
+    	if(preg_match('/^win/i', PHP_OS)){
+        	$data = file_get_contents('E:/sug_link.log');
+        }else{
+        	$data = file_get_contents('/mnt/sug_link.log');
+        }
     	if(!empty($data)){
     		list($telecast, $foreshow) = explode("\n", $data);
     	}else{
@@ -529,7 +533,11 @@ class VcourseController extends Controller
     
     function sug_link_create(Request $request){
     	$data = $request->input('telecast')."\n".$request['foreshow'];
-    	file_put_contents('/mnt/sug_link.log', $data);
+    	if(preg_match('/^win/i', PHP_OS)){
+    		file_put_contents('E:/sug_link.log',$data);
+    	}else{
+    		file_put_contents('/mnt/sug_link.log', $data);
+    	}
     	
     	return redirect()->route('vcourse.sug_link');
     }
