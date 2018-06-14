@@ -249,35 +249,39 @@ class UserController extends Controller
         if ($user->save()) {
             if (($originalRole == 1 || $originalRole == 3) && $request->input('role') == 2) {
                 //发送微信模板消息通知
-                $notice = Wechat::notice();
-                $messageId = $notice->send([
-                    'touser' => $user->openid,
-                    'template_id' => '2FBf-IuHdd0Jptwxrn-1NfjJMVORVqAKx4HuevfsjpI',
-                    'url' => front_url('tutor/complete'),
-                    'topcolor' => '#f7f7f7',
-                    'data' => [
-                        'first' => '身份变更',
-                        'keyword1' => '完善指导师资料',
-                        'keyword2' => '待完善',
-                        'remark' => '点击前往完善指导师资料,审核通过后方能成为指导师。'
-                    ],
-                ]);
+                if(config('app.debug') === false){
+                    $notice = Wechat::notice();
+                    $messageId = $notice->send([
+                        'touser' => $user->openid,
+                        'template_id' => '2FBf-IuHdd0Jptwxrn-1NfjJMVORVqAKx4HuevfsjpI',
+                        'url' => front_url('tutor/complete'),
+                        'topcolor' => '#f7f7f7',
+                        'data' => [
+                            'first' => '身份变更',
+                            'keyword1' => '完善指导师资料',
+                            'keyword2' => '待完善',
+                            'remark' => '点击前往完善指导师资料,审核通过后方能成为指导师。'
+                        ],
+                    ]);
+                }
             }
             if (($originalRole == 1 || $originalRole == 2) && $request->input('role') == 3) {
                 //发送微信模板消息通知
-                $notice = Wechat::notice();
-                $messageId = $notice->send([
-                    'touser' => $user->openid,
-                    'template_id' => '2FBf-IuHdd0Jptwxrn-1NfjJMVORVqAKx4HuevfsjpI',
-                    'url' => front_url('partner/complete'),
-                    'topcolor' => '#f7f7f7',
-                    'data' => [
-                        'first' => '身份变更',
-                        'keyword1' => '完善合伙人资料',
-                        'keyword2' => '待完善',
-                        'remark' => '点击前往完善合伙人资料,审核通过后方能成为合伙人。'
-                    ],
-                ]);
+                if(config('app.debug') === false){
+                    $notice = Wechat::notice();
+                    $messageId = $notice->send([
+                        'touser' => $user->openid,
+                        'template_id' => '2FBf-IuHdd0Jptwxrn-1NfjJMVORVqAKx4HuevfsjpI',
+                        'url' => front_url('partner/complete'),
+                        'topcolor' => '#f7f7f7',
+                        'data' => [
+                            'first' => '身份变更',
+                            'keyword1' => '完善合伙人资料',
+                            'keyword2' => '待完善',
+                            'remark' => '点击前往完善合伙人资料,审核通过后方能成为合伙人。'
+                        ],
+                    ]);
+                }
             }
             return redirect()->route('user.index');
         } else {
@@ -438,8 +442,8 @@ class UserController extends Controller
         $partner_apply_progress = config('constants.partner_apply_progress');
 
         // 判断该申请中的期望城市是否已经有合伙人
-        $user_has_partner = User::where('partner_city', $userpartner->city)->where('role', 3)->where('id','!=',$userpartner->user_id)->first();
-
+        //$user_has_partner = User::where('partner_city', $userpartner->city)->where('role', 3)->where('id','!=',$userpartner->user_id)->first();
+        $user_has_partner = false;
         return view('user.partner_check', ['userpartner' => $userpartner, 'user_sex' => $user_sex, 'partner_apply_progress' => $partner_apply_progress, 'user_has_partner' => $user_has_partner,]);
     }
 
@@ -465,10 +469,10 @@ class UserController extends Controller
             return response()->json(['code' => 1, 'message' => '该用户是指导师，不可再次申请为合伙人!']);
         }
         // 判断该申请中的期望城市是否已经有合伙人
-        $user_has_partner = User::where('partner_city', $userpartner->city)->where('role', 3)->where('id','!=',$userpartner->user_id)->first();
+        /*$user_has_partner = User::where('partner_city', $userpartner->city)->where('role', 3)->where('id','!=',$userpartner->user_id)->first();
         if ($user_has_partner) {
             return response()->json(['code' => 1, 'message' => '该申请中的期望城市已经有合伙人，昵称为' . $user_has_partner->nickname . '!']);
-        }
+        }*/
 
         $user->realname = $userpartner->realname;
         $user->sex = $userpartner->sex;
@@ -478,25 +482,27 @@ class UserController extends Controller
         $user->role = 3;// 只有在资料审核通过时，才能成为真正的合伙人角色
 
         if ($userpartner->save() && $user->save()) {
-            try {
+            if(config('app.debug') === false){
+                try {
                 //发送模板消息通知用户
-                $notice = Wechat::notice();
-                $messageId = $notice->send([
-                    'touser' => $user->openid,
-                    'template_id' => '2FBf-IuHdd0Jptwxrn-1NfjJMVORVqAKx4HuevfsjpI',
-                    'url' => front_url('partner/operate' ),
-                    'topcolor' => '#f7f7f7',
-                    'data' => [
-                        'first' => '合伙人资料审核通过！',
-                        'keyword1' => '合伙人资料更新',
-                        'keyword2' => '合伙人资料审核通过',
-                        'remark' => '点击前往合伙人中心查看详情'
-                    ],
-                ]);
-            }catch (\Exception $e){
+                    $notice = Wechat::notice();
+                    $messageId = $notice->send([
+                        'touser' => $user->openid,
+                        'template_id' => '2FBf-IuHdd0Jptwxrn-1NfjJMVORVqAKx4HuevfsjpI',
+                        'url' => front_url('partner/operate' ),
+                        'topcolor' => '#f7f7f7',
+                        'data' => [
+                            'first' => '合伙人资料审核通过！',
+                            'keyword1' => '合伙人资料更新',
+                            'keyword2' => '合伙人资料审核通过',
+                            'remark' => '点击前往合伙人中心查看详情'
+                        ],
+                    ]);
+                }catch (\Exception $e){
 
+                }
             }
-
+            
             return response()->json(['code' => 0, 'message' => '资料审核通过成功!']);
         } else {
             return response()->json(['code' => 1, 'message' => '资料审核通过失败!']);
