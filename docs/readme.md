@@ -1,5 +1,6 @@
 将该域名代码迁移到git上
 
+//test deploy
 
 upload上传文件目录迁移新目录下
 git代码钩子自动部署
