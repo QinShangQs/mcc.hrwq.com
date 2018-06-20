@@ -185,7 +185,7 @@
                             <div class="input-group form-group">
                                 <span class="input-group-addon"><i class="zmdi zmdi-search"></i></span>
                                 <div class="dtp-container fg-line">
-                                    <input type="text" class="form-control" placeholder="爱心大使昵称/手机" name='lover_key'
+                                    <input type="text" class="form-control" placeholder="爱心大使手机" name='lover_key'
                                            value="{{ request('lover_key') }}">
                                 </div>
                             </div>

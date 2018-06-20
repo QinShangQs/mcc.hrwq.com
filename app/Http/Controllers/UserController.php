@@ -70,15 +70,11 @@ class UserController extends Controller
         	$builder->where('lover_time', '<=', $search_lover_time_e ." 23:59:59");
         }
         
-        
         //爱心大使
         if ($lover_key = trim($request->input('lover_key'))) {
         	$builder->whereHas('lover', function ($query) use ($lover_key) {
-        		$query->where('nickname', 'like', '%' . $lover_key . '%')
-        			->orWhere('mobile', 'like', '%' . $lover_key . '%');
-        			//->orWhere('realname', 'like', '%' . $lover_key . '%');
+        		$query->where('mobile', 'like', '%' . $lover_key . '%');
         	});
-        		
         }
         
     	//用户
