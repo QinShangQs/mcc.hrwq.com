@@ -84,6 +84,7 @@
                         <th>观看次数</th>
                         <th>订单数</th>
                         <th>课程状态</th>
+                        <th>作业总数</th>
                         <th>排序</th>
                         <th>操作</th>
                     </tr>
@@ -100,6 +101,7 @@
                             <td>{{ $item->view_cnt }}</td>
                             <td>{{ $item->num }}</td>
                             <td>@if($item->status){{$status_list[$item->status]}}@endif</td>
+                            <td>@if(isset($countArr[$item->id])) {{$countArr[$item->id]}} @else 0 @endif</td>
                             <td>{{ $item->sort }}</td>
                             <td>
                                 <a href="{{route('vcourse.show',['id'=>$item->id])}}" title="详情"><button class="btn bgm-orange waves-effect"><i class="zmdi zmdi-eye"></i></button></a>

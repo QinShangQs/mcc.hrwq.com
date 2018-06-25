@@ -15,6 +15,7 @@ use App\Models\Area;
 use App\Models\UserTutorApply;
 use App\Models\UserPartnerApply;
 use Wechat, Excel;
+use Cache;
 
 
 class UserController extends Controller
@@ -47,16 +48,16 @@ class UserController extends Controller
             $builder->where('register_at', '<=', $search_time_e);
         }
         if ($search_grow_s = trim($request->input('search_grow_s'))) {
-            $builder->where('grow', '>=', $search_grow_s);
+            $builder->where('grow', '>', $search_grow_s);
         }
         if ($search_grow_e = trim($request->input('search_grow_e'))) {
-            $builder->where('grow', '<=', $search_grow_e);
+            $builder->where('grow', '<', $search_grow_e);
         }
         if($search_left_day_s = trim($request->input('search_left_day_s'))){
-        	$builder->where('vip_left_day','>=' ,date('Y-m-d',strtotime("+ {$search_left_day_s} day")) );
+        	$builder->where('vip_left_day','>' ,date('Y-m-d',strtotime("+ {$search_left_day_s} day")) );
         }
         if($search_left_day_e = trim($request->input('search_left_day_e'))){
-        	$builder->where('vip_left_day','<=' , date('Y-m-d',strtotime("+ {$search_left_day_e} day")) );
+        	$builder->where('vip_left_day','<' , date('Y-m-d',strtotime("+ {$search_left_day_e} day")) );
         }
         
         if ($search_lover = trim($request->input('search_lover'))) {
@@ -95,12 +96,17 @@ class UserController extends Controller
         $user_vip_flg = config('constants.user_vip_flg');
 
         // 城市(所有的省以及市)
-        $areas = Area::select('area_id', 'area_name')->get();
-        $arrArea = array();
-        foreach ($areas as &$value) {
-            $arrArea[$value['area_id']] = $value['area_name'];
+        $areaKey = "area_user_index";
+        $arrArea = Cache::get($areaKey);
+        if(empty($arrArea)){
+            $areas = Area::select('area_id', 'area_name')->get();
+            $arrArea = array();
+            foreach ($areas as &$value) {
+                $arrArea[$value['area_id']] = $value['area_name'];
+            }
+            Cache::put($areaKey, $arrArea, 60*24*7);
         }
-
+        
 	if ($request->input('export')) {
 	    $data = [
                 [   'ID', '昵称', '姓名', '手机号', 
@@ -143,8 +149,12 @@ class UserController extends Controller
         }
 
         // 省
-        $areaPs = Area::select('area_id', 'area_name')->where('area_deep', '=', 1)->get();
-
+        $areaPsKey = "area_ps_user_index";
+        $areaPs = Cache::get($areaPsKey);
+        if(empty($areaPs)){
+            $areaPs = Area::select('area_id', 'area_name')->where('area_deep', '=', 1)->get();
+            Cache::put($areaPsKey, $areaPs, 60*24*7);
+        }
         // 获得选中省下面的城市 
         $areaC_search = null;
         if ($search_province = trim($request->input('search_province'))) {
@@ -157,7 +167,13 @@ class UserController extends Controller
         if ($areaPs) {
             $arrareaCs = $areaPs->toArray();
             foreach ($arrareaCs as &$value) {
-                $areaCs = Area::select('area_id', 'area_name')->where('area_parent_id', $value['area_id'])->get();
+                $areaCsKey = "area_cs_user_index_" . $value['area_id'];
+                $areaCs = Cache::get($areaCsKey);
+                if(empty($areaCs)){
+                    $areaCs = Area::select('area_id', 'area_name')->where('area_parent_id', $value['area_id'])->get();
+                    Cache::put($areaCsKey, $areaCs, 60*24*7);
+                }
+      
                 $arrareaC = array();
                 if ($areaCs) {
                     $arrareaC = $areaCs->toArray();

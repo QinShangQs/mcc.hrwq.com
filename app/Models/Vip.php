@@ -12,7 +12,7 @@ class Vip extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\Models\User','promoter');
+        return $this->belongsTo('App\Models\User','activated_vip');
     }
 
 }

@@ -93,6 +93,11 @@ class VcourseController extends Controller
 
         $data = $builder->paginate(10);
 
+        $countArr = [];
+        foreach ($data as $k => $v){
+            $countArr[$v->id] = VcourseMark::where('vcourse_id', '=', $v->id)->count();
+        }
+        
         foreach ($request->except('page') as $input => $value) {
             if (!empty($value)) {
                 $data->appends($input, $value);
@@ -101,7 +106,7 @@ class VcourseController extends Controller
 
         $status_list = config('constants.status_list');
 
-        return view('vcourse.index', ['data' => $data, 'agencyArr' => Agency::lists('agency_name', 'id'), 'status_list' => $status_list]);
+        return view('vcourse.index', ['data' => $data, 'countArr' => $countArr, 'agencyArr' => Agency::lists('agency_name', 'id'), 'status_list' => $status_list]);
     }
 
     /** 课程详情 */
