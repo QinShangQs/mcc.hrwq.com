@@ -106,9 +106,9 @@ class UserController extends Controller
                 [   'ID', '昵称', '姓名', '手机号', 
                     '角色', '称呼',
                     '城市',
-                    '注册时间', '成长值',
+                    '首次登录时间', '成长值',
                     '是否为和会员', '和会员激活码','和会员天数',
-                	'爱心大使昵称','爱心大使手机号',
+                    '爱心大使昵称','爱心大使手机号','爱心大使关联时间'
                 ],
             ];
             $builder->orderBy('id', 'desc')->chunk(100, function($users) use(&$data, $arrArea, $user_role, $user_label, $user_vip_flg) {
@@ -121,7 +121,8 @@ class UserController extends Controller
                             $user->vip_flg ? ($user_vip_flg[$user->vip_flg] ?: '') : '', $user->vip_code,
                         	computer_vip_left_day($user->vip_left_day),
                         	@$user->lover->nickname,
-                        	@$user->lover->mobile
+                        	@$user->lover->mobile,
+                                @$user->lover->lover_time
                         ];
                 }
             });
