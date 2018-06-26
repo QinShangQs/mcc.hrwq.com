@@ -17,11 +17,13 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         if(config('app.debug') === true){
-            DB::listen(function($sql) {
-                $tmp = str_replace('?', '"'.'%s'.'"',$sql);
-                $tmp = str_replace("\\","",$tmp);
-                Log::info($tmp."\n\t");
-          });
+            DB::listen(function ($sql, $bindings, $time) {
+                Log::info('db listen', [
+                    'sql' => $sql,
+                    'bindings' => $bindings,
+                    'time' => $time
+                ]);
+            });
         }
     }
 
