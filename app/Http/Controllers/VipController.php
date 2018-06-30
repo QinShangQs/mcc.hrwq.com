@@ -20,14 +20,15 @@ use App\Models\Config;
 
 use Excel;
 
+set_time_limit(0);
+
 class VipController extends Controller
 {
 
     // 和会员激活码列表
     public function index(Request $request)
     {
-        $builder = Vip::select('vip.*')->orderBy('id', 'desc');
-        var_dump($request->input('code'));
+        $builder = Vip::select('vip.*')->orderBy('id', 'desc')->with('user');
         //和会员激活码
         if ($code = trim($request->input('code'))) {
             $builder->where('code', '=', $code);
@@ -44,21 +45,29 @@ class VipController extends Controller
         if ($e_time = trim($request->input('e_time'))) {
             $builder->where('updated_at', '<=', $e_time);
         }
-
-
+        
+        if ($nickname = trim($request->input('nickname'))) {
+            $builder->whereHas('user', function ($query) use ($nickname) {
+        	$query->where('nickname', 'like', '%' . $nickname . '%');
+            });
+        }
+        
         if ($request->input('export')) {
             $data = [
                 [   'ID', '和会员激活码',
-                    '是否被激活', '导入时间'
+                    '是否被激活', '导入时间',
+                    '用户昵称','激活时间'
                 ],
             ];
             $builder->chunk(100, function($codes) use(&$data) {
                 if ($codes) foreach ($codes as $code) {
                     $data[] = @[
                         $code->id,
-                        $code->code,
+                        ($code->code == 1 ? "否":"是"),
                         $code->is_activated,
                         $code->created_at,
+                        @$code->user->nickname,
+                        (!empty($code->user) ? $code->updated_at : '')
                     ];
                 }
             });

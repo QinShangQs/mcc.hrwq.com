@@ -63,14 +63,20 @@
                             </div>
                         </div>
                         <div class="col-sm-2">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="zmdi zmdi-search"></i></span>
+                                <div class="dtp-container fg-line">
+                                    <input type="text" class="form-control" placeholder="昵称" name='nickname'
+                                           value="{{ request('nickname') }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
                             <div class="text-right form-group">
                                 <button type="submit" class="btn btn-primary btn-sm  waves-effect">搜索</button>
                                 <a href="#" target="_blank" class="btn btn-success btn-sm waves-effect">导出</a>
                             </div>
                         </div>
-
-
-
                     </div>
 
                 </form>
@@ -91,6 +97,8 @@
                         <th>ID</th>
                         <th>和会员激活码</th>
                         <th>是否被激活</th>
+                        <th>用户昵称</th>
+                        <th>激活时间</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -108,6 +116,11 @@
                                 <td>{{$item->id}}</td>
                                 <td>{{$item->code}}</td>
                                 <td>@if($item->is_activated ==1 )未激活@else已激活@endif</td>
+                                <td>@if($item->user) 
+                                    <a href='/user/show/{{$item->user->id}}'>{{$item->user->nickname}}</a> 
+                                    @endif
+                                </td>
+                                <td>@if($item->user) {{$item->updated_at}} @endif</td>
                                 <td>
                                     <!-- <a href="{{ route('vip.edit',['id'=>$item->id]) }}" title="修改">
                                         <button type="button" class="btn bgm-orange waves-effect">
