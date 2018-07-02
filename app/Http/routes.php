@@ -85,6 +85,9 @@ Route::group(['middleware' => 'auth'],function (){
     	Route::get('/create', 'WechatPushController@create')->name('wechat_push.create');
     	Route::post('/store', 'WechatPushController@store')->name('wechat_push.store');
     	Route::post('/delete', 'WechatPushController@delete')->name('wechat_push.delete');
+        
+        Route::get('/lovebg', 'WechatPushController@showLove')->name('wechat_push.showLove');
+        Route::post('/lovebg/edit', 'WechatPushController@updateLove')->name('wechat_push.updateLove');
     });
 
     /* 线下活动课程管理*/

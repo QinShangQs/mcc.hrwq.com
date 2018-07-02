@@ -73,4 +73,18 @@ class WechatPushController extends Controller
         $word->delete();
         return response()->json(['code' => 0, 'message' => '删除成功!']);
     }
+    
+    public function showLove(){
+        $instance = \App\Models\Tooler::getByType(\App\Models\Tooler::TYPE_LOVE_BG);
+        return view('wechat_push.show-lovebg', ['instance' => (array)$instance['content']]);
+    }
+    
+    public function updateLove(Request $request){
+         $data = array(
+             'base64' =>   $request->input('base64'),
+             'name_color' =>  $request->input('name_color')
+         );
+         \App\Models\Tooler::lovebgMerge(json_encode($data));
+         return redirect()->route('wechat_push.showLove');
+    }
 }
