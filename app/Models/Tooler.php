@@ -51,7 +51,7 @@ class Tooler extends Model {
         $instance = self::getByType(self::TYPE_LOVE_BG);
         if (!empty($instance['id'])) {
             $instance['content'] = $data;
-            DB::update('update tooler set content = ? where id = ?',[$data,$instance['id']]);
+            DB::update('update tooler set content = ? where id = ?',[$instance['content'],$instance['id']]);
         } else {
             $instance['type'] = self::TYPE_LOVE_BG;
             $instance['content'] = $data;

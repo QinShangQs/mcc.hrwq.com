@@ -75,7 +75,10 @@ $(function () {
 });
 
 function check(){
-    $('#base64').val($('.imgWrap img').eq(0).attr('src'));
+    if($('.imgWrap img').length){
+        $('#base64').val($('.imgWrap img').eq(0).attr('src'));
+    }
+    
     return true;
 }
 

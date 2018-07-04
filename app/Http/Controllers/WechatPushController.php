@@ -84,6 +84,7 @@ class WechatPushController extends Controller
              'base64' =>   $request->input('base64'),
              'name_color' =>  $request->input('name_color')
          );
+
          \App\Models\Tooler::lovebgMerge(json_encode($data));
          return redirect()->route('wechat_push.showLove');
     }
