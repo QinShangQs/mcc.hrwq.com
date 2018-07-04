@@ -34,8 +34,9 @@ class Tooler extends Model {
                 $data['id']  = 0;
                 $data['content'] = ['base64' => '', 'name_color' => ''];
             }else{
-                $data = $data[0];
-                $data['content'] = json_decode($data['content']);
+                $data = $data[0];  
+                $data['content'] = json_decode(($data['content']), true);
+              
             }
         }
         return $data;

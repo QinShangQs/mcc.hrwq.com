@@ -137,9 +137,19 @@ jQuery(function() {
                     $wrap.text( '不能预览' );
                     return;
                 }
-
-                var img = $('<img src="'+src+'">');
-                $wrap.empty().append( img );
+                if (typeof(my_use_origin) != 'undefined'){
+                    var r = new FileReader();  //本地预览
+                    r.onload = function(){
+                        src = r.result;
+                        var img = $('<img src="'+src+'">');
+                         $wrap.empty().append( img );
+                    }
+                    r.readAsDataURL(file.source.source);    //Base64
+                }else{
+                    var img = $('<img src="'+src+'">');
+                    $wrap.empty().append( img );
+                }
+                
             }, thumbnailWidth, thumbnailHeight );
 
             percentages[ file.id ] = [ file.size, 0 ];

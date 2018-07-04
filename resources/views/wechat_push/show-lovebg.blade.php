@@ -64,7 +64,10 @@
 @endsection
 @section('script')
 <script type="text/javascript" src="/vendors/webuploader/webuploader.min.js"></script>
-    <script type="text/javascript" src="/vendors/webuploader/carousel_webupload.js"></script>
+<script type="text/javascript">
+    var my_use_origin = true;
+</script>
+<script type="text/javascript" src="/vendors/webuploader/carousel_webupload.js"></script>
 
 <script type="text/javascript" charset="utf-8" src="/vendors/Ueditor/ueditor.config.js"></script>
 <script type="text/javascript" charset="utf-8" src="/vendors/Ueditor/ueditor.all.min.js"></script>
@@ -76,7 +79,7 @@ $(function () {
 
 function check(){
     if($('.imgWrap img').length){
-        $('#base64').val($('.imgWrap img').eq(0).attr('src'));
+        $('#base64').val(( $('.imgWrap img').eq(0).attr('src')));
     }
     
     return true;
