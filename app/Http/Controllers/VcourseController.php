@@ -243,6 +243,13 @@ class VcourseController extends Controller
                 $query->where('title', 'like', '%' . $title . '%');
             });
         }
+        
+        //用户昵称
+        if ($nickname = trim($request->input('nickname'))) {
+            $builder->whereHas('user', function ($query) use ($nickname) {
+        	$query->where('nickname', 'like', '%' . $nickname . '%');
+            });
+        }
 
         //提交作业时间
         if ($start_time = $request->input('s_time')) {

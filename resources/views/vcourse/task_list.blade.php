@@ -16,7 +16,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-2">
                             <div class="input-group form-group">
                                 <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
                                     <div class="dtp-container fg-line">
@@ -24,11 +24,19 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-2">
                             <div class="input-group form-group">
                                 <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
                                     <div class="dtp-container fg-line">
                                     <input type="text" class="form-control date-picker" placeholder="提交时间区间" name='e_time' value="{{ request('e_time') }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="zmdi zmdi-search"></i></span>
+                                <div class="fg-line">
+                                        <input type="text" class="form-control" placeholder="用户昵称" name='nickname' value="{{ request('nickname') }}">
                                 </div>
                             </div>
                         </div>
@@ -53,7 +61,7 @@
                         </th>
                         <th>课程名称</th>
                         <th>课程作业</th>
-                        <th>作业用户</th>
+                        <th>用户昵称</th>
                         <th>作业内容</th>
                         <th>提交日期</th>
                         <th>点赞数</th>
@@ -72,7 +80,7 @@
                             </td>
                             <td>{{ str_limit(@$item->vcourse->title,30) }}</td>
                             <td>{{ str_limit(@$item->vcourse->work,30) }}</td>
-                            <td>{{ str_limit(@$item->user->nickname,30) }}</td>
+                            <td><a href="/user/show/{{@$item->user->id}}" target="_blank">{{ str_limit(@$item->user->nickname,30) }}</a></td>
                             <td>{{ str_limit($item->mark_content,30) }}</td>
                             <td>{{ str_limit($item->created_at,30) }}</td>
                             <td>{{ $item->likes }}</td>
