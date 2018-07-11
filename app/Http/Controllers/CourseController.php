@@ -160,9 +160,9 @@ class CourseController extends Controller
     {
         $this->validate($request, $this->_rule, $this->_message, $this->_customAttributes);
         //验证只有一个指导师培训课程
-        $tutorCourse = Course::where('is_tutor_course', 1)->count();
-        if ($tutorCourse && $request->input('is_tutor_course') == 1)
-            return back()->withErrors('指导师培训课程已存在！');
+//        $tutorCourse = Course::where('is_tutor_course', 1)->count();
+//        if ($tutorCourse && $request->input('is_tutor_course') == 1)
+//            return back()->withErrors('指导师培训课程已存在！');
 
         $course = new Course;
         $course->title = $request->input('title');
@@ -267,9 +267,9 @@ class CourseController extends Controller
         $rule['title'] = 'required|min:2|max:15|unique:course,title,' . $id . ',id,deleted_at,NULL';
         $this->validate($request, $rule, $this->_message, $this->_customAttributes);
         //验证只有一个指导师培训课程
-        $tutorCourse = Course::where('is_tutor_course', 1)->count();
-        if ($tutorCourse && $request->input('is_tutor_course') == 1 && $course->is_tutor_course != 1)
-            return back()->withErrors('指导师培训课程已存在！');
+//        $tutorCourse = Course::where('is_tutor_course', 1)->count();
+//        if ($tutorCourse && $request->input('is_tutor_course') == 1 && $course->is_tutor_course != 1)
+//            return back()->withErrors('指导师培训课程已存在！');
 
         $course->title = $request->input('title');
         $course->picture = $request->input('picture');
