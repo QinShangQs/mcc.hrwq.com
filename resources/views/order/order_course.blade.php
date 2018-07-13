@@ -217,11 +217,11 @@ margin:10px 0px 10px 0px;
                         <tr id="b{{$item->id}}">
                             <td>{{ $item->order_code }}</td>
                             <td>{{ @str_limit($item->order_name,30) }}</td>
-                            <td>{{ @str_limit($item->user->nickname)}}</td>
-                            <!--<td>{{ $item->order_course->consignee_tel }}</td>-->
-                            <td>@if($item->user->mobile){{ $item->user->mobile }}@endif</td>
+                            <td>@if($item->user){{ @str_limit($item->user->nickname)}}@endif</td>
+                            <!--<td>item->order_course->consignee_tel </td>-->
+                            <td>@if($item->user && $item->user->mobile){{ $item->user->mobile }}@endif</td>
                             {{--<td>{{ @$partner_list[$item->course->promoter] }}</td>--}}
-                            <td>@if($item->order_course->user_city){{ $arrArea[$item->order_course->user_city] }}@endif</td>
+                            <td>@if($item->order_course && $item->order_course->user_city){{ $arrArea[$item->order_course->user_city] }}@endif</td>
                             <td>{{ @$item->user->nickname }}</td>
                             <td>@if($item->free_flg=='2')<strong class="c-red">{{ @$item->total_price }}</strong>@else<strong class="c-green">免费</strong>@endif</td>
                             <td>{{ @$order_type[$item->order_type] }}</td> 
