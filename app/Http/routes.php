@@ -79,7 +79,7 @@ Route::group(['middleware' => 'auth'],function (){
     	Route::post('/delete', 'LeaveWordController@delete')->name('leaveword.delete');
     });
     
-    /** 微信消息管理 */
+    /** 微信推送管理 */
     Route::group(['prefix'=>'wechat_push'], function (){
     	Route::get('/', 'WechatPushController@index')->name('wechat_push.index');
     	Route::get('/create', 'WechatPushController@create')->name('wechat_push.create');
@@ -88,6 +88,16 @@ Route::group(['middleware' => 'auth'],function (){
         
         Route::get('/lovebg', 'WechatPushController@showLove')->name('wechat_push.showLove');
         Route::post('/lovebg/edit', 'WechatPushController@updateLove')->name('wechat_push.updateLove');
+    });
+    
+    /** 微信任务管理 */
+    Route::group(['prefix'=>'wechat_task'], function (){
+    	Route::get('/', 'WechatTaskController@index')->name('wechat_task.index');
+    	Route::get('/create', 'WechatTaskController@create')->name('wechat_task.create');
+        Route::get('/detail/{id}', 'WechatTaskController@detail')->name('wechat_task.detail');
+        Route::post('/test', 'WechatTaskController@sendTest')->name('wechat_task.test');
+    	Route::post('/store', 'WechatTaskController@store')->name('wechat_task.store');
+    	Route::post('/delete', 'WechatTaskController@delete')->name('wechat_task.delete');
     });
 
     /* 线下活动课程管理*/

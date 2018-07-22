@@ -116,7 +116,8 @@
                 <li class="left_10"><a href="{{route('vcourse.sug_link')}}">视频推荐链接</a></li>   
                 <li class="left_10"><a href="{{route('wechat_push.index')}}">微信推送管理</a></li>
                 <li class="left_10"><a href="{{route('wechat_push.showLove')}}">爱心大使封面</a></li>
-            </ul>
+           	<li class="left_10"><a href="{{route('wechat_task.index')}}">微信任务管理</a></li>
+	   </ul>
         </li>
 
     </ul>

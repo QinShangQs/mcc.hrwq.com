@@ -8,6 +8,12 @@ return [
     'opo_manager_mobile' => '18611115291',
     'notify_days_before_course' => 3,   //好课开始前 n 天提醒
 
+    //用户类型
+    'user_types' => [
+        'all'      => '全部粉丝',
+        'vip'      => '和会员用户',//可能未关注
+    ],
+    
     //是否有硬件
     'hardware_list' => [
         '1'      => '无硬件',

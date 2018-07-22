@@ -2,7 +2,7 @@
 @section('content')
     <div class="container">
         <div class="block-header">
-            <h2><a href="{{route('course.index')}}">信息维护</a> -> 产品详情</h2>
+            <h2><a href="{{route('course.index')}}">信息维护</a> -> 用户详情</h2>
         </div>
 
         <div class="card">
@@ -15,6 +15,16 @@
                         </div>
                     </div>
                 </div>
+                
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group fg-line ">
+                            <label for="exampleInputEmail1">微信ID</label>
+                            <input type="text" disabled="disabled" value="{{ $user->openid }}" name="openid"  class="form-control input-sm">
+                        </div>
+                    </div>
+                </div>
+                
 
                 <div class="row">
                     <div class="col-sm-3">
