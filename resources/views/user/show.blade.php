@@ -25,6 +25,14 @@
                     </div>
                 </div>
                 
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group fg-line ">
+                            <label for="exampleInputRealName">真实姓名</label>
+                            <input type="text" disabled="disabled" value="{{ $user->realname }}" name="realname"  class="form-control input-sm">
+                        </div>
+                    </div>
+                </div>
 
                 <div class="row">
                     <div class="col-sm-3">

@@ -250,6 +250,7 @@ class UserController extends Controller
         $user = User::find($id);
         $originalRole = $user->role;
 
+        $user->realname = $request->input('realname');
         $user->role = $request->input('role');
         $user->province = $request->input('province');
         $user->city = $request->input('city');
@@ -347,9 +348,8 @@ class UserController extends Controller
 
         $id = intval($id);
         $user = User::find($id);
-
         if ($user == null) {
-            abort(404, '不存在该产品！');
+            abort(404, '不存在该用户！');
         }
 
         // 角色

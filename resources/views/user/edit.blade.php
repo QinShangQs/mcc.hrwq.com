@@ -44,11 +44,21 @@ margin:0px 0px 10px 0px;
                     <div class="row">
                         <div class="col-sm-3">
                             <div class="form-group fg-line ">
+                                <label for="exampleInputRealName">真实姓名</label>
+                                <input type="text" value="{{ $user->realname }}" name="realname" class="form-control input-sm">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group fg-line ">
                                 <label for="exampleInputEmail1">手机号</label>
                                 <input type="text" disabled="disabled" value="{{ $user->mobile }}" name="mobile"  class="form-control input-sm">
                             </div>
                         </div>
                     </div>
+                    
 
                     <div class="row">
                         <div class="col-sm-3">
