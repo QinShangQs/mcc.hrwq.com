@@ -114,7 +114,8 @@
                     </div>
                 </div>
             </div>
-
+            
+            @if(!empty($user->video_url))
             <div class="row">
                 <div class="col-sm-12">
                     <div class="form-group fg-line ">
@@ -152,7 +153,7 @@
                     </div>
                 </div>
             </div>
-
+            @endif
         </div>
     </div>
 
