@@ -14,6 +14,8 @@ use App\Models\User;
 use App\Models\Area;
 use App\Models\UserTutorApply;
 use App\Models\UserPartnerApply;
+use App\Models\UserPartnerCard;
+use App\Models\UserPartnerCardImages;
 use Wechat, Excel;
 use Cache;
 
@@ -602,6 +604,32 @@ class UserController extends Controller
             return response()->json(['code' => 1, 'message' => '审核解冻失败!']);
         }
 
+    }
+    
+    public function partnerCards(Request $request){
+        $builder = UserPartnerCard::with(['user']);
+        
+        if ($search_mobile = trim($request->input('search_mobile'))) {
+            $builder->where('tel', 'like', '%' . $search_mobile . '%');
+        }
+        if ($nickname = trim($request->input('nickname'))) {
+            $builder->whereHas('user', function ($query) use ($nickname) {
+        	$query->where('nickname', 'like', '%' . $nickname . '%')->orWhere('realname', 'like', '%' . $nickname . '%');
+            });
+        }
+        
+        $users = $builder->orderBy('created_at', 'desc')->paginate(10);
+        foreach ($request->except('page') as $input => $value) {
+            if (!empty($value)) {
+                $users->appends($input, $value);
+            }
+        }
+       return view('user.partner_card', ['users' => $users]);
+    }
+    
+    public function partnerCardShow($user_id){
+        $user = UserPartnerCard::with(['user','images'])->find($user_id);
+        return view('user.partner_card_show', ['user' => $user]);
     }
 
 }
