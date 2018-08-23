@@ -126,7 +126,7 @@ margin:0px 0px 10px 0px;
                     </div>
 
                     <div class="row">
-                        <div class="col-sm-3">
+                        <div class="col-sm-5">
                             <div class="form-group fg-line ">
                                 <label for="exampleInputEmail1">是否为和会员</label>
                                 <div class="radio m-b-15">
@@ -137,9 +137,15 @@ margin:0px 0px 10px 0px;
                                     </label>
                                     
                                     <label class="radio radio-inline m-r-20">
-                                        <input type="radio" name="vip_flg" value="2"  @if($user->vip_flg == 2) checked @endif >
+                                        <input type="radio" name="vip_flg" value="2"  @if($user->vip_flg == 2 && $user->vip_forever == 1) checked @endif >
                                         <i class="input-helper"></i>
                                         是
+                                    </label>
+                                    
+                                    <label class="radio radio-inline m-r-20">
+                                        <input type="radio" name="vip_flg" value="3"  @if($user->vip_forever == 2) checked @endif >
+                                        <i class="input-helper"></i>
+                                        永久
                                     </label>
                                 </div>
                             </div>

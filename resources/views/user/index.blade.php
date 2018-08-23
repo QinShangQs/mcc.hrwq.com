@@ -272,7 +272,7 @@
                                 <td>{{$item->register_at}}</td>
                                 <td>{{$item->grow}}</td>
                                 <td>@if($item->vip_flg){{$user_vip_flg[$item->vip_flg]}}@endif</td>
-                                <td>{{computer_vip_left_day($item->vip_left_day)}}</td>
+                                <td>{{vip_left_day_text($item->vip_forever,$item->vip_left_day)}}</td>
                                 <td>@if($item->lover){{$item->lover->nickname}}/{{$item->lover->mobile}}@endif</td>
                                 <td>
                                     <a href="{{ route('user.show',['id'=>$item->id]) }}" title="详情">

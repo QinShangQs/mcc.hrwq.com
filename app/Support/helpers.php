@@ -244,3 +244,38 @@ if(!function_exists('computer_vip_left_day')) {
 		return $left_day;
 	}
 }
+
+/**
+ * 是否永久和会员
+ * @return boolean true是
+ */
+function is_vip_forever($vip_forever){
+    return $vip_forever == 2;
+}
+
+/**
+ * 获取用户的vip剩余天数
+ * @tutorial 用户和会员返回9999999
+ * @return int
+ */
+function vip_left_day_number($vip_forever, $vip_left_day) {
+    if (is_vip_forever($vip_forever)) {
+        return 9999999;
+    }
+    $left_day = computer_vip_left_day($vip_left_day);
+    if(is_string($left_day)){
+        return 100000;
+    }
+    return $left_day;
+}
+
+/**
+ * 获取当前登录用户的vip剩余天数，永久和会员返回“永久”
+ * @return string
+ */
+function vip_left_day_text($vip_forever, $vip_left_day){
+    if (is_vip_forever($vip_forever)) {
+        return '永久';
+    }
+    return computer_vip_left_day($vip_left_day);
+}
