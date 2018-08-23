@@ -43,6 +43,9 @@ Route::group(['middleware' => 'auth'],function (){
         Route::post('/unlock','UserController@unlock')->name('user.unlock');
         Route::post('/upload','UserController@uploadImages')->name('user.upload');
         Route::post('/getcitylist/{id}', 'UserController@getcitylist')->name('user.getcitylist');
+        Route::get('/partner_cards', 'UserController@partnerCards')->name('user.partner_cards');
+        Route::get('/partner_card_show/{user_id}', 'UserController@partnerCardShow')->name('user.partner_card_show');
+        
 
         // 指导师审核管理
         Route::get('/tutor', 'TutorController@index')->name('user.tutor');
