@@ -159,7 +159,7 @@ return [
     'user_vip_flg' => [
         1=>'否',
         2=>'是',
-        3=>'永久' //vip_forever=2
+        3=>'长期' //vip_forever=2
     ],
 
     //优惠券状态
