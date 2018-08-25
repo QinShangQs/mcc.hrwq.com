@@ -101,7 +101,7 @@
                     <div class="col-sm-3">
                         <div class="form-group fg-line ">
                             <label for="exampleInputEmail1">是否为和会员</label>
-                            <input type="text" disabled="disabled" value="@if($user->vip_flg){{ $user_vip_flg[$user->vip_flg] }}@endif @if(is_vip_forever($user->vip_forever)) 永久 @endif" name="vip_flg"  class="form-control input-sm">
+                            <input type="text" disabled="disabled" value="@if($user->vip_flg){{ $user_vip_flg[$user->vip_flg] }}@endif @if(is_vip_forever($user->vip_forever)) 长期 @endif" name="vip_flg"  class="form-control input-sm">
                         </div>
                     </div>
                 </div>

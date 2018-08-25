@@ -145,7 +145,7 @@ margin:0px 0px 10px 0px;
                                     <label class="radio radio-inline m-r-20">
                                         <input type="radio" name="vip_flg" value="3"  @if($user->vip_forever == 2) checked @endif >
                                         <i class="input-helper"></i>
-                                        永久
+                                        长期
                                     </label>
                                 </div>
                             </div>
