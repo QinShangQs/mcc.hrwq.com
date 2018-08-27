@@ -46,6 +46,9 @@ Route::group(['middleware' => 'auth'],function (){
         Route::get('/partner_cards', 'UserController@partnerCards')->name('user.partner_cards');
         Route::get('/partner_card_show/{user_id}', 'UserController@partnerCardShow')->name('user.partner_card_show');
         
+        Route::get('/partner_card_whites', 'UserController@partnerCardWhites')->name('user.partner_card_whites');
+        Route::post('/partner_card_whites_create', 'UserController@partnerCardWhitesCreate')->name('user.partner_card_whites_create');
+        Route::post('/partner_card_whites_remove', 'UserController@partnerCardWhitesRemove')->name('user.partner_card_whites_remove');
 
         // 指导师审核管理
         Route::get('/tutor', 'TutorController@index')->name('user.tutor');

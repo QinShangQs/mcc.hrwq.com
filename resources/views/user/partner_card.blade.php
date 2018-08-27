@@ -31,6 +31,11 @@
                     <div class="col-sm-2 text-right">
                         <button type="submit" class="btn btn-primary btn-sm  waves-effect">搜索</button>
                     </div>
+                    <div class="col-sm-2 text-right Right">
+                        <button type=button class="btn btn-default btn-sm  waves-effect"
+                                onclick="location.href = '{{ route('user.partner_card_whites') }}'"
+                                >查看白名单</button>
+                    </div>
                 </div>
 
             </form>

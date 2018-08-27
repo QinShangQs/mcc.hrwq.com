@@ -15,6 +15,7 @@ use App\Models\Area;
 use App\Models\UserTutorApply;
 use App\Models\UserPartnerApply;
 use App\Models\UserPartnerCard;
+use App\Models\UserPartnerWhites;
 use App\Models\UserPartnerCardImages;
 use Wechat, Excel;
 use Cache;
@@ -615,5 +616,38 @@ class UserController extends Controller {
         $user = UserPartnerCard::with(['user','images'])->find($user_id);
         return view('user.partner_card_show', ['user' => $user]);
     }
+    
+    public function partnerCardWhites(){
+        $whites = UserPartnerWhites::with(['user'])->get();
+        return view('user.partner_card_whites', ['users' => $whites]);
+    }
+    
+    public function partnerCardWhitesCreate(Request $request){
+        $user_id = $request->input('user_id');
+        
+        if(User::find($user_id) == null){
+            return response()->json(['code' => 1, 'message' => '用户不存在!']);
+        }
 
+        $white = UserPartnerWhites::withTrashed()->find($user_id);
+        if(empty($white)){
+            $white = new UserPartnerWhites();
+        }
+        
+        $white->user_id = $user_id;
+        $white->deleted_at = null;
+        if ($white->save()) {
+            return response()->json(['code' => 0, 'message' => '添加成功!']);
+        } else {
+            return response()->json(['code' => 1, 'message' => '添加失败!']);
+        }
+    }
+    
+    public function partnerCardWhitesRemove(Request $request){
+        $user_id = $request->input('user_id');
+        $white = UserPartnerWhites::find($user_id);
+        $white->delete();
+        return response()->json(['code' => 0, 'message' => '删除成功!']);
+    }
+    
 }
