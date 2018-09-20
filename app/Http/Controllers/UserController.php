@@ -238,7 +238,7 @@ class UserController extends Controller {
 
     /** 用户编辑 */
     public function update(Request $request) {
-
+        
         $this->validate($request, [
             'role' => 'required',
             'grow' => 'required|integer',
@@ -260,6 +260,8 @@ class UserController extends Controller {
         if($user->vip_flg == 3){ //永久和会员
             $user->vip_flg = 2;
             $user->vip_forever = 2;
+        }else{
+            $user->vip_forever = 1;
         }
         $user->vip_code = $request->input('vip_code');
         $user->block = $request->input('block');
