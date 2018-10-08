@@ -471,7 +471,7 @@ class OrderController extends Controller
     public function order_vip(Request $request)
     {
         //关联模型
-        $builder = Order::withTrashed()->with('user')->with("order_vip")->with('lover');
+        $builder = Order::with('user')->with("order_vip")->with('lover');
 
         //订单号
         if ($order_code = trim($request->input('order_code'))) {
@@ -1061,6 +1061,13 @@ class OrderController extends Controller
             $message['content'] = $file_arr;
         }
         die(json_encode($message, JSON_UNESCAPED_UNICODE));
+    }
+    
+    public function vipRemove(Request $request){
+        $id = $request->input('id');
+        $white = Order::find($id);
+        $white->delete();
+        return response()->json(['code' => 0, 'message' => '删除成功!']);
     }
 
 }

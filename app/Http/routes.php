@@ -198,6 +198,7 @@ Route::group(['middleware' => 'auth'],function (){
         Route::any('/qiniu_uptoken', 'OrderController@qiniu_uptoken')->name('order.qiniu_uptoken');
         Route::any('/qiniu_delete', 'OrderController@qiniu_delete')->name('order.qiniu_delete');
         Route::post('/upload','OrderController@uploadImages')->name('order.upload');
+        Route::post('/order/vip_remove','OrderController@vipRemove')->name('order.vip_remove');
     });
 
     /* 壹家壹服务管理*/
