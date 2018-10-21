@@ -46,6 +46,8 @@ Route::group(['middleware' => 'auth'],function (){
         Route::get('/partner_cards', 'UserController@partnerCards')->name('user.partner_cards');
         Route::get('/partner_card_show/{user_id}', 'UserController@partnerCardShow')->name('user.partner_card_show');
         
+        Route::get('/leftday/{user_id}', 'UserController@leftday_show')->name('user.leftday');
+        
         Route::get('/partner_card_whites', 'UserController@partnerCardWhites')->name('user.partner_card_whites');
         Route::post('/partner_card_whites_create', 'UserController@partnerCardWhitesCreate')->name('user.partner_card_whites_create');
         Route::post('/partner_card_whites_remove', 'UserController@partnerCardWhitesRemove')->name('user.partner_card_whites_remove');

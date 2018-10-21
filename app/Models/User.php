@@ -36,6 +36,11 @@ class User extends Model
         return $this->hasMany('App\Models\UserPoint','user_id');
     }
     
+    public function user_point_vip()
+    {
+        return $this->hasMany('App\Models\UserPointVip','user_id');
+    }
+    
     public function lover()
     {
     	return $this->belongsTo('App\Models\User','lover_id');

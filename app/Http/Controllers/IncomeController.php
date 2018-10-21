@@ -83,6 +83,12 @@ class IncomeController extends Controller
         }else{
             $data = $builder->orderBy('user.id', 'desc')->paginate(10);
         }
+        
+        foreach ($request->except('page') as $input => $value) {
+            if (!empty($value)) {
+                $data->appends($input, $value);
+            }
+        }
 
         return view('income.user_index', [
             'data' => $data,
@@ -616,6 +622,12 @@ class IncomeController extends Controller
 
         $data = $builder->orderBy('user.id', 'desc')->paginate(10);
 
+        foreach ($request->except('page') as $input => $value) {
+            if (!empty($value)) {
+                $data->appends($input, $value);
+            }
+        }
+        
         return view('income.point_index', ['data' => $data, 'user_role' => config('constants.user_role')]);
     }
 

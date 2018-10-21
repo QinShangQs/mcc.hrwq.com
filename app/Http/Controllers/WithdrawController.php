@@ -90,6 +90,13 @@ class WithdrawController extends Controller
             $builder->where('created_at', '<=', "{$stop_time}" . ' 23:59:59');
         }
         $data = $builder->paginate(10);
+        
+        foreach ($request->except('page') as $input => $value) {
+            if (!empty($value)) {
+                $data->appends($input, $value);
+            }
+        }
+        
         return view('income.cash_index', [
             'data' => $data,
             'user_role' => config('constants.user_role'),

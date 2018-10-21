@@ -216,7 +216,7 @@
                             <td class="@if($item->apply_status == 1) c-red @elseif($item->apply_status == 2) c-gray @else c-green  @endif">{{$income_cash_state[$item->apply_status]}}</td>
                             <td>
                                 <a title="查看记录" href="{{route('income.cash_show',['id'=>$item->id])}}">
-                                    <button class="btn bgm-orange waves-effect"><i class="zmdi zmdi-eye"></i></button>
+                                    <button class="btn bgm-orange waves-effect btn-xs"><i class="zmdi zmdi-eye"></i></button>
                                 </a>
                                 @if($item->apply_status == 1)
                                     <button id="approve_btn_{{$item->id}}" class="btn bgm-blue waves-effect approve_btn" data-id="{{$item->id}}">通过

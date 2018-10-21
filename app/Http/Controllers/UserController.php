@@ -17,7 +17,8 @@ use App\Models\UserPartnerApply;
 use App\Models\UserPartnerCard;
 use App\Models\UserPartnerWhites;
 use App\Models\UserPartnerCardImages;
-use Wechat, Excel;
+use Wechat,
+    Excel;
 use Cache;
 
 class UserController extends Controller {
@@ -225,7 +226,7 @@ class UserController extends Controller {
 
         // 性别/孩子性别
         $user_sex = config('constants.user_sex');
-        
+
         return view('user.edit', ['user' => $user, 'province_list' => $province_list, 'city_list' => $city_list, 'user_role' => $user_role, 'user_label' => $user_label, 'user_vip_flg' => $user_vip_flg, 'user_sex' => $user_sex]);
     }
 
@@ -238,7 +239,7 @@ class UserController extends Controller {
 
     /** 用户编辑 */
     public function update(Request $request) {
-        
+
         $this->validate($request, [
             'role' => 'required',
             'grow' => 'required|integer',
@@ -257,10 +258,10 @@ class UserController extends Controller {
         $user->city = $request->input('city');
         $user->grow = $request->input('grow');
         $user->vip_flg = $request->input('vip_flg');
-        if($user->vip_flg == 3){ //永久和会员
+        if ($user->vip_flg == 3) { //永久和会员
             $user->vip_flg = 2;
             $user->vip_forever = 2;
-        }else{
+        } else {
             $user->vip_forever = 1;
         }
         $user->vip_code = $request->input('vip_code');
@@ -376,6 +377,25 @@ class UserController extends Controller {
 
         return view('user.show', ['user' => $user, 'user_role' => $user_role, 'user_label' => $user_label, 'user_vip_flg' => $user_vip_flg,
             'areas' => $arrArea, 'user_sex' => $user_sex, 'lover' => $lover]);
+    }
+
+    /**
+     * 会员动态
+     */
+    public function leftday_show($id) {
+        $user = User::with(['user_point_vip' => function ($query) {
+                        $query->orderBy('id', 'desc');
+                }])->find($id);
+
+        if ($user == null)
+            abort(404, '查找失败！');
+
+        return view('user.leftday_show', [
+            'user' => $user,
+            'user_role' => config('constants.user_role'),
+            'vip_point_source' => config('constants.vip_point_source'),
+            'user_vip_flg' => config('constants.user_vip_flg')
+        ]);
     }
 
     // 合伙人审核列表
@@ -592,50 +612,50 @@ class UserController extends Controller {
             return response()->json(['code' => 1, 'message' => '审核解冻失败!']);
         }
     }
-    
-    public function partnerCards(Request $request){
+
+    public function partnerCards(Request $request) {
         $builder = UserPartnerCard::with(['user']);
-        
+
         if ($search_mobile = trim($request->input('search_mobile'))) {
             $builder->where('tel', 'like', '%' . $search_mobile . '%');
         }
         if ($nickname = trim($request->input('nickname'))) {
             $builder->whereHas('user', function ($query) use ($nickname) {
-        	$query->where('nickname', 'like', '%' . $nickname . '%')->orWhere('realname', 'like', '%' . $nickname . '%');
+                $query->where('nickname', 'like', '%' . $nickname . '%')->orWhere('realname', 'like', '%' . $nickname . '%');
             });
         }
-        
+
         $users = $builder->orderBy('created_at', 'desc')->paginate(10);
         foreach ($request->except('page') as $input => $value) {
             if (!empty($value)) {
                 $users->appends($input, $value);
             }
         }
-       return view('user.partner_card', ['users' => $users]);
+        return view('user.partner_card', ['users' => $users]);
     }
-    
-    public function partnerCardShow($user_id){
-        $user = UserPartnerCard::with(['user','images'])->find($user_id);
+
+    public function partnerCardShow($user_id) {
+        $user = UserPartnerCard::with(['user', 'images'])->find($user_id);
         return view('user.partner_card_show', ['user' => $user]);
     }
-    
-    public function partnerCardWhites(){
+
+    public function partnerCardWhites() {
         $whites = UserPartnerWhites::with(['user'])->get();
         return view('user.partner_card_whites', ['users' => $whites]);
     }
-    
-    public function partnerCardWhitesCreate(Request $request){
+
+    public function partnerCardWhitesCreate(Request $request) {
         $user_id = $request->input('user_id');
-        
-        if(User::find($user_id) == null){
+
+        if (User::find($user_id) == null) {
             return response()->json(['code' => 1, 'message' => '用户不存在!']);
         }
 
         $white = UserPartnerWhites::withTrashed()->find($user_id);
-        if(empty($white)){
+        if (empty($white)) {
             $white = new UserPartnerWhites();
         }
-        
+
         $white->user_id = $user_id;
         $white->deleted_at = null;
         if ($white->save()) {
@@ -644,12 +664,12 @@ class UserController extends Controller {
             return response()->json(['code' => 1, 'message' => '添加失败!']);
         }
     }
-    
-    public function partnerCardWhitesRemove(Request $request){
+
+    public function partnerCardWhitesRemove(Request $request) {
         $user_id = $request->input('user_id');
         $white = UserPartnerWhites::find($user_id);
         $white->delete();
         return response()->json(['code' => 0, 'message' => '删除成功!']);
     }
-    
+
 }

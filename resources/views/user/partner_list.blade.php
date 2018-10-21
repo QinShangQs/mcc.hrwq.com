@@ -124,9 +124,9 @@
                         @foreach($user_tutors as $item)
                             <tr id="b{{$item->id}}">
                                 <td>{{$item->id}}</td>
-                                <td>{{$item->user->nickname}}</td>
+                                <td>{{@$item->user->nickname}}</td>
                                 <td>{{$item->realname}}</td>
-                                <td>{{$item->user->mobile}}</td>
+                                <td>{{@$item->user->mobile}}</td>
                                 <td>@if($item->sex){{$user_sex[$item->sex]}}@endif</td>
                                 <td>{{$item->email}}</td>
                                 <td>{{$item->address}}</td>
