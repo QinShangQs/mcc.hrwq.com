@@ -156,8 +156,15 @@ class IncomeController extends Controller
         try {
             UserBalance::create($user_balance);
             $item->increment('current_balance', $amount);  //总收益 & 余额 ++
-            $item->increment('balance', $amount);
+            
+            if($amount > 0){//累计收益
+                $item->increment('balance', $amount);
+            }
 
+            if($amount < 0 && $user_balance['source'] == 6){ //提现
+                //负数计入累积提现
+                $item->increment('cash_amount', abs($amount));
+            }
             DB::commit();
             return response()->json(['code' => 0, 'message' => '余额增减成功!']);
         } catch (\Exception $e) {
