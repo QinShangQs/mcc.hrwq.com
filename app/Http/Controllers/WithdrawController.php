@@ -154,10 +154,13 @@ class WithdrawController extends Controller
                     'desc' => '企业付款',
                     'spbill_create_ip' => $_SERVER['REMOTE_ADDR'],
                 ];
-                $result = $merchantPay->send($merchantPayData);
-                if ($result->return_code != 'SUCCESS' || $result->result_code != 'SUCCESS') {
-                    DB::rollBack();
-                    return response()->json(['code' => 3, 'message' => $result->err_code.' '.$result->err_code_des]);
+                
+                if(config('app.env') === 'production'){
+                    $result = $merchantPay->send($merchantPayData);
+                    if ($result->return_code != 'SUCCESS' || $result->result_code != 'SUCCESS') {
+                        DB::rollBack();
+                        return response()->json(['code' => 3, 'message' => $result->err_code.' '.$result->err_code_des]);
+                    }
                 }
                 MerchantPayLog::create($merchantPayData);
                 //处理提现记录与用户提现总额
@@ -203,11 +206,16 @@ class WithdrawController extends Controller
                 'desc' => '企业付款',
                 'spbill_create_ip' => $_SERVER['REMOTE_ADDR'],
             ];
-            $result = $merchantPay->send($merchantPayData);
-            if ($result->return_code != 'SUCCESS' || $result->result_code != 'SUCCESS') {
-                DB::rollBack();
-                return response()->json(['code' => 3, 'message' => $result->err_code.' '.$result->err_code_des]);
+            
+            if(config('app.env') === 'production'){
+                //打款操作
+                $result = $merchantPay->send($merchantPayData);
+                if ($result->return_code != 'SUCCESS' || $result->result_code != 'SUCCESS') {
+                    DB::rollBack();
+                    return response()->json(['code' => 3, 'message' => $result->err_code.' '.$result->err_code_des]);
+                }
             }
+            
             $merchantPayData['income_cash_id'] = $incomeCash->id;
             $merchantPayData['user_id'] = $incomeCash->user_id;
             MerchantPayLog::create($merchantPayData);
