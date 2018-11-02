@@ -156,7 +156,7 @@
                     <tr id="b{{$item->id}}">
                         <td>{{ $item->order_code }}</td>
                         <td>{{ @$item->user->nickname }}</td>
-                        <td>@if($item->user->province){{$areas[$item->user->province]}}@endif @if($item->user->city){{$areas[$item->user->city]}}@endif</td>
+                        <td>@if(@$item->user->province){{$areas[$item->user->province]}}@endif @if($item->user->city){{$areas[$item->user->city]}}@endif</td>
                         <td>{{ @$item->user->mobile }}</td>
                         <td><strong class="c-red">{{ @$item->total_price }}</strong></td>
                         <td>{{ @$order_type[$item->order_type] }}</td>
