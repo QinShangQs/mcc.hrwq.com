@@ -145,6 +145,7 @@
                         <th>城市</th>
                         <th>手机号</th>
                         <th>总价<small class="c-red">(元)</small></th>
+                        <th>实际付款<small class="c-red">(元)</small></th>
                         <th>付款状态</th>
                         <th>支付时间</th>
                         <th>爱心大使手机号/姓名</th>
@@ -159,6 +160,7 @@
                         <td>@if(@$item->user->province){{$areas[$item->user->province]}}@endif @if($item->user->city){{$areas[$item->user->city]}}@endif</td>
                         <td>{{ @$item->user->mobile }}</td>
                         <td><strong class="c-red">{{ @$item->total_price }}</strong></td>
+                        <td><strong class="c-red">{{ @$item->price }}</strong></td>
                         <td>{{ @$order_type[$item->order_type] }}</td>
                         <td>{{ $item->pay_time }}</td> 
                         <td>
