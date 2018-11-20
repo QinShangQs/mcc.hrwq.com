@@ -203,7 +203,6 @@ class CouponController extends Controller
         elseif($coupon->available_period_type==2 && time()>strtotime($coupon->available_end_time))
             abort(404, '优惠券已过期，请重新选择！');
 
-
         //筛选发放用户
         $builder = User::with('c_province','c_city');
 
@@ -265,19 +264,21 @@ class CouponController extends Controller
 		});
         }
 
-
-        $all_data = $builder->get();
+       
+        $idBuilder = clone $builder;
         $data = $builder->paginate(20);
+       
         //发放给所有筛选用户 使用
-        $user_ids = $all_data->lists('id')->toArray();
+        $user_ids = $idBuilder->select('id')->lists('id')->toArray();
         $user_ids_str = implode(',',$user_ids);
+        unset($user_ids);
 
         foreach ($request->except('page') as $input => $value) {
             if (!empty($value)) {
                 $data->appends($input, $value);
             }
         }
-
+        
         return view('coupon.distribute',[
             'item_coupon'=>$coupon,
             'coupon_use_scope'=> config('constants.coupon_use_scope'),
