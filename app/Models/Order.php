@@ -15,6 +15,11 @@ class Order extends Model
     {
         return $this->hasOne('App\Models\OrderCourse','order_id');
     }
+    
+    public function lover_course()
+    {
+        return $this->hasOne('App\Models\LoverCourse','order_id');
+    }
 
     public function course()
     {

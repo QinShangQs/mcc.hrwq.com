@@ -206,6 +206,7 @@ margin:10px 0px 10px 0px;
                         <th>手机号</th>
                         <th>城市</th>
                         <th>用户</th>
+                        <th>分享人</th>
                         <th>总价<small class="c-red">(元)</small></th>
                         <th>付款状态</th>
                         <th>报到状态</th>
@@ -223,6 +224,7 @@ margin:10px 0px 10px 0px;
                             {{--<td>{{ @$partner_list[$item->course->promoter] }}</td>--}}
                             <td>@if($item->order_course && $item->order_course->user_city){{ $arrArea[$item->order_course->user_city] }}@endif</td>
                             <td>{{ @$item->user->nickname }}</td>
+                            <td>{{@$item->lover_course->lover->nickname}} / {{@$item->lover_course->lover->mobile}} </td>
                             <td>@if($item->free_flg=='2')<strong class="c-red">{{ @$item->total_price }}</strong>@else<strong class="c-green">免费</strong>@endif</td>
                             <td>{{ @$order_type[$item->order_type] }}</td> 
                             <td>{{ @$report_flg[$item->order_course->report_flg] }}</td>

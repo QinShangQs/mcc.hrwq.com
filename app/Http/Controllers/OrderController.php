@@ -29,7 +29,7 @@ class OrderController extends Controller
     public function order_course(Request $request)
     {
         //关联模型
-        $builder = Order::withTrashed()->with('course.area', 'order_course', 'user');
+        $builder = Order::withTrashed()->with('course.area', 'order_course', 'user','lover_course');
     	//获取所有省
 		$province_list = Area::select('area_id', 'area_name')->where('area_deep', '=', 1)->get()->toArray();;
 		//获取所有市
