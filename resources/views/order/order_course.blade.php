@@ -229,7 +229,10 @@ margin:10px 0px 10px 0px;
                             <td>{{ @$order_type[$item->order_type] }}</td> 
                             <td>{{ @$report_flg[$item->order_course->report_flg] }}</td>
                             <td>
-                                <a href="{{route('order.order_course_show',['id'=>$item->id])}}" title="详情"><button class="btn bgm-orange waves-effect"><i class="zmdi zmdi-eye"></i></button></a>
+                                <a href="{{route('order.order_course_show',['id'=>$item->id])}}" title="详情"><button class="btn bgm-orange waves-effect btn-sm"><i class="zmdi zmdi-eye"></i></button></a>
+                                @if($item->order_type == 1)
+                                    <button data-id="{{$item->id}}" class="btn btn-info waves-effect sa-warning btn-sm" title="删除"><i class="zmdi zmdi-close"></i></button>
+                                @endif
                             </td>
                         </tr>
                     @endforeach
@@ -270,6 +273,33 @@ margin:10px 0px 10px 0px;
                 var url = $(this).closest('form').serialize();
                 $(this).attr('href', '/order/order_course?'+ url +'&export=1');
             });
+            
+        $('.sa-warning').click(function () {
+            var id = $(this).data('id');
+            swal({
+                title: "确定删除?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "删除",
+                cancelButtonText: "取消",
+                closeOnConfirm: false
+            }, function () {
+                $.ajax({
+                    type: 'post',
+                    url: '{{route('order.vip_remove')}}',
+                    data: {id: id},
+                    success: function (res) {
+                        if (res.code == 0) {
+                            $('#b' + id).remove();
+                            swal(res.message, "", "success");
+                        } else {
+                            swal(res.message);
+                        }
+                    }
+                });
+            });
+        });
     });
     </script>
 @endsection
