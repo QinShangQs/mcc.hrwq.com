@@ -223,7 +223,7 @@
                             <div class="form-group fg-line ">
                                 <label for="exampleInputEmail1">城市</label>
                                 <div class="select">
-                                    <select name="city" class="selectpicker" onchange="getpartner(this.value)">
+                                    <select name="city" id="city" class="selectpicker" onchange="getpartner(this.value)">
                                         <option value="">请选择城市</option>
                                         @foreach($partnerCitys as $partnerCity)
                                             <option value="{{$partnerCity->area_id}}" @if($course->city == $partnerCity->area_id) selected @endif >{{$partnerCity->area_name}}</option>
@@ -235,8 +235,10 @@
                         <div class="col-sm-3">                    
                             <div class="form-group fg-line ">
                                 <label for="exampleInputEmail1">发起人</label>
-                                <input type="hidden" value="{{ $course->promoter }}" name="promoter" id="promoter"  class="form-control input-sm">
-                                <input type="text" disabled="disabled" value="{{ @$course->user->realname }}" name="promoter_name" id="promoter_name"  class="form-control input-sm">
+                                <div class="select">
+                                    <select name="promoter" id="promoter" class="form-control" >
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -378,13 +380,20 @@
             var arrpartner = new Array();
             arrpartner = <?php print_r($arrPartners); ?>;
             arrpartner = arrpartner[obj];
-            $("#promoter").val(arrpartner[0]['id']);
-            $("#promoter_name").val(arrpartner[0]['realname']);
+            $("#promoter").empty();
+            for(i = 0; i < arrpartner.length ; i ++){
+                $("#promoter").append('<option '+(i == 0 ? "selected":"")+' value="'+arrpartner[i].id+'">'+arrpartner[i].realname+'</option>');
+            }
         }
     </script>
 
     <script type="text/javascript">
         $(function(){
+            if($('#city').val()){
+                getpartner($('#city').val());
+                $("#promoter").val({{$course->promoter}});
+            }
+            
             if ($("input[name='type']:checked").val()==1) {
                $('#price').hide();
                $('#original_price').hide();

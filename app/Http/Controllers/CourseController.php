@@ -249,7 +249,7 @@ class CourseController extends Controller
                 $arrPartners2[$value['area_id']] = $partner;
             }
         }
-        // dd($arrPartners2);exit;
+        //dd($arrPartners2);exit;
         $arrPartners = json_encode($arrPartners2);
 
         return view('course.edit', ['course' => $course, 'hardware_list' => $hardware_list, 'type_list' => $type_list, 'status_list' => $status_list, 'agencys' => $agencys, 'partnerCitys' => $partnerCitys, 'arrPartners' => $arrPartners]);
