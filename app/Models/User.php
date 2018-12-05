@@ -25,6 +25,15 @@ class User extends Model
     {
         return $this->belongsTo('App\Models\Area','partner_city','area_id');
     }
+    
+    public function getPartnerCityName(){
+        if(!empty($this->partner_city)){
+            $city = Area::where('area_id', $this->partner_city)
+                    ->first();
+            return !empty($city) ? $city->area_name: "";
+        }
+        return "";
+    }
 
     public function user_balance()
     {

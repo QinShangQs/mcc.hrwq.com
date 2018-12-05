@@ -386,7 +386,7 @@ class UserController extends Controller {
         $user = User::with(['user_point_vip' => function ($query) {
                         $query->orderBy('id', 'desc');
                 }])->find($id);
-
+        //dd($user);
         if ($user == null)
             abort(404, '查找失败！');
 

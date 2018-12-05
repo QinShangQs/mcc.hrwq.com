@@ -29,6 +29,8 @@
                         <label>角色</label>
                         <div class="fg-line form-group c-gray">
                             {{ $user_role[$user->role]}}
+                            
+                            {{ $user->getPartnerCityName() }}
                         </div>
                     </div>
                 </div>
