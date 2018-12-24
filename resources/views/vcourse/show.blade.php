@@ -138,7 +138,7 @@
                         <table class="table table-striped table-hover text-left" style="margin-bottom:40px;">
                             <tbody id="fsUploadProgress">
                                 <tr id="" class="progressContainer" style="opacity: 1;">
-                                  <td class="progressName">{{$vcourse->video_original}}
+                                  <td class="progressName">{{$vcourse->video_original}} (转码后视频：{{config('qiniu.DOMAIN').$vcourse->video_tran}})
                                     <div class="m-t-20">
                                       <span class="origin-video btn  btn-primary play-btn" data-url="{{config('qiniu.DOMAIN').$vcourse->video_original}}">播放原视频</span>
                                       <span class="origin-video btn  btn-primary play-btn m-l-5" style="" data-url="{{config('qiniu.DOMAIN').$vcourse->video_tran}}">播放转码后视频</span>
