@@ -29,7 +29,7 @@ class CourseController extends Controller
         'agency_id' => 'required',
         'price' => 'required_if:type,2',
         'original_price' => 'required_if:type,2',
-        'package_price' => 'required_if:type,2',
+//        'package_price' => 'required_if:type,2',
         'city' => 'required_if:head_flg,2',
         'allow_num' => 'integer',
         'participate_num' => 'integer',
@@ -40,7 +40,7 @@ class CourseController extends Controller
     private $_message = [
         'price.required_if' => '当 收费类别 为 收费 时 当前价 不能为空',
         'original_price.required_if' => '当 收费类别 为 收费 时 市场价 不能为空',
-        'package_price.required_if' => '当 收费类别 为 收费 时 套餐价 不能为空',
+//        'package_price.required_if' => '当 收费类别 为 收费 时 套餐价 不能为空',
         'city.required_if' => '当 是否由总部发起 为 否 时 城市 不能为空',
     ];
 
@@ -53,7 +53,7 @@ class CourseController extends Controller
 
         'price' => '当前价',
         'original_price' => '市场价',
-        'package_price' => '套餐价',
+//        'package_price' => '套餐价',
 
         'city' => '城市',
 
