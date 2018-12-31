@@ -132,20 +132,26 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-sm-3">
+                        <div class="col-sm-6">
                             <div class="form-group fg-line ">
                                 <label for="exampleInputEmail1">收费类型</label>
                                 <div class="radio m-b-15">
                                     <label class="radio radio-inline m-r-20">
-                                        <input type="radio" name="type" value="1" @if($course->type == 1) checked @endif >
+                                        <input onclick="changeType()" type="radio" name="type" value="1" @if($course->type == 1) checked @endif >
                                         <i class="input-helper"></i>
                                         免费
                                     </label>
                                     
                                     <label class="radio radio-inline m-r-20">
-                                        <input type="radio" name="type" value="2"  @if($course->type == 2) checked @endif >
+                                        <input onclick="changeType()" type="radio" name="type" value="2"  @if($course->type == 2) checked @endif >
                                         <i class="input-helper"></i>
                                         收费
+                                    </label>
+                                    
+                                    <label class="radio radio-inline m-r-20">
+                                        <input onclick="changeType()" type="radio" name="type" value="3" @if($course->type == 3) checked @endif>
+                                        <i class="input-helper"></i>
+                                        团购
                                     </label>
                                 </div>
                             </div>
@@ -179,6 +185,31 @@
                         </div>
                     </div>
 
+                    <div class="row" id="tuangou_price">
+                        <div class="col-sm-3">
+                            <div class="form-group fg-line ">
+                                <label for="exampleInputEmail1">团购价（单位：元）</label>
+                                <input type="text" value="{{$course->tuangou_price}}" name="tuangou_price"  class="form-control input-sm">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="tuangou_peoples">
+                        <div class="col-sm-3">
+                            <div class="form-group fg-line ">
+                                <label for="exampleInputEmail1">组团人数</label>
+                                <input type="text" value="{{$course->tuangou_peoples}}" name="tuangou_peoples"  class="form-control input-sm">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="tuangou_days">
+                        <div class="col-sm-3">
+                            <div class="form-group fg-line ">
+                                <label for="exampleInputEmail1">截团天数</label>
+                                <input type="text" value="{{$course->tuangou_days}}" name="tuangou_days"  class="form-control input-sm">
+                            </div>
+                        </div>
+                    </div>
+                        
                     <div class="row">
                         <div class="col-sm-3">
                             <div class="form-group fg-line ">
@@ -388,33 +419,38 @@
     </script>
 
     <script type="text/javascript">
+        function changeType(){
+            if ($("input[name='type']:checked").val()==1) {
+               $('#price').hide();
+               $('#original_price').hide();
+               $('#package_price').hide();
+               $('#tuangou_price').hide();
+               $('#tuangou_peoples').hide();
+               $('#tuangou_days').hide();
+            } else if ($("input[name='type']:checked").val()==2) {
+               $('#price').show();
+               $('#original_price').show();
+               $('#package_price').show();
+               $('#tuangou_price').hide();
+               $('#tuangou_peoples').hide();
+               $('#tuangou_days').hide();
+            } else if ($("input[name='type']:checked").val()==3) {
+               $('#price').show();
+               $('#original_price').show();
+               $('#package_price').hide();
+               $('#tuangou_price').show();
+               $('#tuangou_peoples').show();
+               $('#tuangou_days').show();
+            }
+        }
+        
         $(function(){
             if($('#city').val()){
                 getpartner($('#city').val());
                 $("#promoter").val({{$course->promoter}});
             }
             
-            if ($("input[name='type']:checked").val()==1) {
-               $('#price').hide();
-               $('#original_price').hide();
-               $('#package_price').hide();
-            } else if ($("input[name='type']:checked").val()==2) {
-               $('#price').show();
-               $('#original_price').show();
-               $('#package_price').show();
-            }
-            //收费类别
-            $("input[name='type']").change(function(){
-               if ($(this).val()==1) {
-                  $('#price').hide();
-                  $('#original_price').hide();
-                  $('#package_price').hide();
-               } else {
-                  $('#price').show();
-                  $('#original_price').show();
-                  $('#package_price').show();
-               }
-            });
+            changeType();
 
             //是否为总部发起
             if ($("input[name='head_flg']:checked").val()==1) {

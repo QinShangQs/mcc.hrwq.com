@@ -35,6 +35,9 @@ class CourseController extends Controller
         'participate_num' => 'integer',
         'verify_password' => 'required',
         'sort' => 'numeric',
+        'tuangou_price' => 'required_if:type,3',
+        'tuangou_peoples' => 'required_if:type,3',
+        'tuangou_days' => 'required_if:type,3',
     ];
 
     private $_message = [
@@ -54,12 +57,16 @@ class CourseController extends Controller
         'price' => '当前价',
         'original_price' => '市场价',
 //        'package_price' => '套餐价',
-
+        
         'city' => '城市',
-
+        
         'allow_num' => '名额',
         'participate_num' => '参与人数',
         'verify_password' => '验证密码',
+        
+        'tuangou_price' => '团购价',
+        'tuangou_peoples' => '团购人数',
+        'tuangou_days' => '截团天数',
     ];
 
     // 课程管理列表
@@ -174,6 +181,9 @@ class CourseController extends Controller
         $course->price = $request->input('price');
         $course->original_price = $request->input('original_price');
         $course->package_price = $request->input('package_price');
+        $course->tuangou_price = $request->input('tuangou_price');
+        $course->tuangou_peoples = $request->input('tuangou_peoples');
+        $course->tuangou_days = $request->input('tuangou_days');
         $course->course_date = $request->input('course_date');
         $course->head_flg = $request->input('head_flg');
         if ($request->input('head_flg')=='1') {
@@ -280,6 +290,9 @@ class CourseController extends Controller
         $course->price = $request->input('price');
         $course->original_price = $request->input('original_price');
         $course->package_price = $request->input('package_price');
+        $course->tuangou_price = $request->input('tuangou_price');
+        $course->tuangou_peoples = $request->input('tuangou_peoples');
+        $course->tuangou_days = $request->input('tuangou_days');
         $course->course_date = $request->input('course_date');
         $course->head_flg = $request->input('head_flg');
         if ($request->input('head_flg')=='1') {
