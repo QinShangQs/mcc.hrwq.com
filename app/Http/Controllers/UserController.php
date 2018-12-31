@@ -249,6 +249,12 @@ class UserController extends Controller {
         ]);
 
         $id = $request->input('id');
+        $mobile = $request->input('mobile');
+        $oldMobileUser = User::where(['mobile' => $mobile])->first();
+        if(!empty($oldMobileUser) && $oldMobileUser->id != $id){
+            return redirect()->back()->withInput()->withErrors('手机号已被' .$oldMobileUser->nickname. "绑定");
+        }
+        
         $user = User::find($id);
         $originalRole = $user->role;
 
@@ -257,6 +263,7 @@ class UserController extends Controller {
         $user->province = $request->input('province');
         $user->city = $request->input('city');
         $user->grow = $request->input('grow');
+        $user->mobile = $mobile;
         $user->vip_flg = $request->input('vip_flg');
         if ($user->vip_flg == 3) { //永久和会员
             $user->vip_flg = 2;

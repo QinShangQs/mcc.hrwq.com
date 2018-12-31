@@ -54,7 +54,7 @@ margin:0px 0px 10px 0px;
                         <div class="col-sm-3">
                             <div class="form-group fg-line ">
                                 <label for="exampleInputEmail1">手机号</label>
-                                <input type="text" disabled="disabled" value="{{ $user->mobile }}" name="mobile"  class="form-control input-sm">
+                                <input type="text" value="{{ $user->mobile }}" name="mobile"  class="form-control input-sm">
                             </div>
                         </div>
                     </div>
