@@ -86,6 +86,7 @@
                 <li class="left_10"><a href="{{route('order.order_opo')}}">壹家壹订单</a></li>
                 <li class="left_10"><a href="{{route('order.order_question')}}">好问订单</a></li>
                 <li class="left_10"><a href="{{route('order.order_vip')}}">和会员订单</a></li>
+		<li class="left_10"><a href="{{route('order.order_tuangou')}}">团购订单</a></li>
             </ul>
         </li>
 

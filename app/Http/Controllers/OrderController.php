@@ -22,6 +22,8 @@ use Qiniu\Auth as Qiniu_Auth;
 use Qiniu\Storage\BucketManager;
 use Wechat, Event, DB;
 use App\Library\UploadFile;
+use App\Models\OrderTeamMember;
+use App\Models\OrderTeam;
 
 class OrderController extends Controller
 {
@@ -1070,4 +1072,59 @@ class OrderController extends Controller
         return response()->json(['code' => 0, 'message' => '删除成功!']);
     }
 
+    /** 和会员订单列表 */
+    public function order_tuangou(Request $request)
+    {
+        //关联模型
+        $builder = OrderTeamMember::with(['user','order','team']);
+
+        //订单号
+        if ($order_code = trim($request->input('order_code'))) {
+            $builder->whereHas('order', function ($query) use ($order_code) {
+                $query->where('order_code', 'like', '%' . $order_code . '%');
+            });
+        }
+        
+        //付款状态
+        if ($order_type = trim($request->input('order_type'))) {
+            $builder->whereHas('order', function ($query) use ($order_type) {
+                $query->where('order_type', '=', $order_type);
+            });
+        }
+        
+        //用户名称
+        if ($nickname = trim($request->input('nickname'))) {
+            $builder->whereHas('user', function ($query) use ($nickname) {
+                $query->where('nickname', 'like', '%' . $nickname . '%');
+            });
+        }
+        //手机号
+        if ($consignee_tel = trim($request->input('consignee_tel'))) {
+            $builder->whereHas('user', function ($query) use ($consignee_tel) {
+                $query->where('mobile', 'like', '%' . $consignee_tel . '%');
+            });
+        }
+        
+        
+        $builder->orderBy('order_team_member.created_at', 'desc')->orderBy('order_team_id','desc');
+        //付款状态
+        $order_type = config('constants.order_type_vip');
+        $tuan_status = config('constants.tuan_status');
+        // 城市(所有的省以及市)
+        $areas = Area::select('area_id', 'area_name')->get();
+        $arrArea = array();
+        foreach ($areas as &$value) {
+        	$arrArea[$value['area_id']] = $value['area_name'];
+        }
+        
+        $data = $builder->paginate(10);
+        
+        foreach ($request->except('page') as $input => $value) {
+            if (!empty($value)) {
+                $data->appends($input, $value);
+            }
+        }
+
+        return view('order.order_tuangou', ['data'=>$data, 'order_type'=>$order_type,'areas' => $arrArea,'tuan_status' => $tuan_status]);
+    }
 }
