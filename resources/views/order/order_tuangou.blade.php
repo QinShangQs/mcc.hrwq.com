@@ -79,9 +79,9 @@
                 </thead>
                 <tbody>
                     @foreach ($data as $item)
-                    <tr id="b{{$item->order->id}}">
-                        <td>{{ $item->order->order_code }}</td>
-                        <td>{{ $item->order_team_id }}</td>
+                    <tr id="b{{@$item->order->id}}">
+                        <td>{{ @$item->order->order_code }}</td>
+                        <td>{{ @$item->order_team_id }}</td>
                         <td>
                             {{ @$item->user->nickname }}
                             <span class="label-info">
@@ -95,15 +95,15 @@
                         <td>@if(@$item->user->province){{$areas[$item->user->province]}}@endif @if($item->user->city){{$areas[$item->user->city]}}@endif</td>
                         <td>{{ @$item->user->mobile }}</td>
                         <td><strong class="c-red">{{ @$item->team->price }}</strong></td>
-                        <td><strong class="c-red">{{ @$item->order->price }}</strong></td>
-                        <td>{{ @$order_type[$item->order->order_type] }}</td>
-                        <td>{{ $item->order->pay_time }}</td> 
-                        <td>{{ $tuan_status[$item->team->status] }}</td>
-                        <td>{{ $item->team->need_members_cnt }}人 / {{ $item->team->ended_at }}</td>
+                        <td><strong class="c-red">{{ @@$item->order->price }}</strong></td>
+                        <td>{{ @$order_type[@$item->order->order_type] }}</td>
+                        <td>{{ @$item->order->pay_time }}</td> 
+                        <td>{{ @$tuan_status[@$item->team->status] }}</td>
+                        <td>{{ @$item->team->need_members_cnt }}人 / {{ @$item->team->ended_at }}</td>
                         <td>
-                            <a href="{{route('order.order_course_show',['id'=>$item->order->id])}}" title="详情"><button class="btn bgm-orange waves-effect"><i class="zmdi zmdi-eye"></i></button></a>
-                            @if($item->order->order_type == 1)
-                            <button data-id="{{$item->order->id}}" class="btn btn-info waves-effect sa-warning" title="删除"><i class="zmdi zmdi-close"></i></button>
+                            <a href="{{route('order.order_course_show',['id'=>@$item->order->id])}}" title="详情"><button class="btn bgm-orange waves-effect"><i class="zmdi zmdi-eye"></i></button></a>
+                            @if(@$item->order->order_type == 1)
+                            <button data-id="{{@$item->order->id}}" class="btn btn-info waves-effect sa-warning" title="删除"><i class="zmdi zmdi-close"></i></button>
                             @endif
                         </td>
                     </tr>
