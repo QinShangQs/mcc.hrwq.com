@@ -42,7 +42,8 @@
                         <li class="left_15"><a href="{{route('vcourse.tasks')}}">作业管理</a></li>
                         <li class="left_15"><a href="{{route('vcourse.marks')}}">笔记管理</a></li>
                         <li class="left_15"><a href="{{route('vcourse.recommend')}}">推荐管理</a></li>
-                    </ul>
+                    	<li class="left_15"><a href="{{route('ad')}}">广告管理</a></li>
+		    </ul>
                 </li>
                 <li class="sub-menu left_10">
                     <a>壹家壹服务管理</a>

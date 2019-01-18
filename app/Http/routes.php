@@ -283,6 +283,17 @@ Route::group(['middleware' => 'auth'],function (){
         Route::post('/delete', 'CarouselController@delete')->name('carousel.delete');
         Route::post('/upload','CarouselController@uploadImages')->name('carousel.upload');
     });
+    
+    /** 广告管理 */
+    Route::group(['prefix'=>'ad'], function (){
+        Route::get('/', 'AdController@index')->name('ad');
+        Route::get('/create', 'AdController@create')->name('ad.create');
+        Route::post('/store', 'AdController@store')->name('ad.store');
+        Route::get('/edit/{id}', 'AdController@edit')->name('ad.edit');
+        Route::post('/edit/{id}', 'AdController@update')->name('ad.update');
+        Route::post('/show', 'AdController@isShow')->name('ad.show');
+        Route::post('/delete', 'AdController@delete')->name('ad.delete');
+    });
 
     /** 文章管理 */
     Route::group(['prefix'=>'article'], function (){
