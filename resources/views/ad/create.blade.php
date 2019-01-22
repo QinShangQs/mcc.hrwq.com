@@ -170,7 +170,7 @@
 <script type="text/javascript" src="/qiniu/js/ui.js"></script>
 <script type="text/javascript">
 //收费类别
-$(function () {
+$(document).ready(function(){
     $("#ad_type").val(1);
     $("#ad_type").change(function () {
         if ($(this).val() == 1) {
@@ -184,5 +184,6 @@ $(function () {
     
     $("#ad_type").change();
 });
+
 </script>
 @endsection
