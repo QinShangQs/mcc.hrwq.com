@@ -39,7 +39,7 @@ class AdController extends Controller {
         $this->validate($request, $this->_rules, [], $this->_customAttributes);
         
         if ($data['ad_type'] == Ad::AD_TYPE_IMAGE) {
-            $data['display_url'] = thumb_uri($data['image_url'], config('upload.carousel.thumbPrefix'));
+            $data['display_url'] = $data['image_url'];
             unset($data['image_url']);
         } else {
             $data['display_url'] = $data['video_tran'];
