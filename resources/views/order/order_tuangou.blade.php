@@ -8,7 +8,14 @@
         <div class="card-header card-padding">
             <form action="{{ route('order.order_tuangou') }}" method='GET'>
                 <div class="row">
-
+                    <div class="col-sm-2">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="zmdi zmdi-aspect-ratio zmdi-hc-fw"></i></span>
+                            <div class="fg-line">
+                                <input type="text" class="form-control" placeholder="团号" name='team_id' value="{{ request('team_id') }}">
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-sm-2">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="zmdi zmdi-account zmdi-hc-fw"></i></span>

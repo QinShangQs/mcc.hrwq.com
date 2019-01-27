@@ -1078,6 +1078,10 @@ class OrderController extends Controller
         //关联模型
         $builder = OrderTeamMember::with(['user','order','team']);
 
+        if ($team_id = trim($request->input('team_id'))) {
+            $builder->where('order_team_id','=', $team_id);
+        }
+
         //订单号
         if ($order_code = trim($request->input('order_code'))) {
             $builder->whereHas('order', function ($query) use ($order_code) {
