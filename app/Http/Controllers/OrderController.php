@@ -1075,9 +1075,14 @@ class OrderController extends Controller
     /** 和会员订单列表 */
     public function order_tuangou(Request $request)
     {
+        $order_team_ids = OrderTeamMember::with('order')->where('member_type','=', OrderTeamMember::MEMBER_TYPE_INITIATOR)
+                ->whereHas('order', function ($query) {
+                $query->where('order_type', '=', 2);
+            })->select('order_team_id')->get()->toArray();
+        
         //关联模型
         $builder = OrderTeamMember::with(['user','order','team']);
-
+        $builder->whereIn('order_team_id',array_column($order_team_ids, 'order_team_id'));
         if ($team_id = trim($request->input('team_id'))) {
             $builder->where('order_team_id','=', $team_id);
         }
