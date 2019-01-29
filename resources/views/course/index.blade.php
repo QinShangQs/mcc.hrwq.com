@@ -20,6 +20,22 @@
                             </div>
                         </div>
 
+                        <div class="col-sm-2">
+                            <div class="input-group form-group">
+                                <span class="input-group-addon"><i class="zmdi zmdi-caret-down-circle zmdi-hc-fw"></i></span>
+                                <div class="dtp-container fg-line">
+                                    <div class="select">
+                                        <select class="selectpicker" name="search_type">
+                                            <option value="">收费类型</option>
+                                            <option value="1" @if(request('search_type') == 1) selected @endif >免费</option>
+                                            <option value="2" @if(request('search_type') == 2) selected @endif>付费</option>
+                                            <option value="3" @if(request('search_type') == 3) selected @endif>团购</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
                          <div class="col-sm-2">
                             <div class="input-group form-group">
                                 <span class="input-group-addon"><i class="zmdi zmdi-caret-down-circle zmdi-hc-fw"></i></span>
@@ -123,7 +139,15 @@
                                 <td>{{$item->id}}</td>
                                 <td>{{$item->title}}</td>
                                 <td>{{@$item->user->realname}}</td>
-                                <td>{{@$item->agency->agency_name}}</td>
+                                <td>{{@$item->agency->agency_name}} 
+                                    @if(@$item->type == 1)
+                                        (免费)
+                                    @elseif(@$item->type == 2)
+                                        (付费)
+                                    @elseif(@$item->type == 1)
+                                        (团购)
+                                    @endif
+                                </td>
                                 <td>{{$item->course_date}}</td>
                                 <td>{{@$item->area->area_name}}</td>
                                 <td>{{$item->price}}</td>

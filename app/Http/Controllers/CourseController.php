@@ -81,6 +81,10 @@ class CourseController extends Controller
         if ($search_city = trim($request->input('search_city'))) {
             $builder->where('city', $search_city);
         }
+        
+        if ($search_type = trim($request->input('search_type'))) {
+            $builder->where('type', $search_type);
+        }
 
         if ($search_agency_id = trim($request->input('search_agency_id'))) {
             $builder->where('agency_id', $search_agency_id);
