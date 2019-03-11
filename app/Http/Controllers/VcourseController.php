@@ -76,12 +76,12 @@ class VcourseController extends Controller
 
         //上线时间
         if ($start_time = $request->input('s_time')) {
-            $builder->where('created_at', '>=', "{$start_time}" . ' 00:00:00');
+            $builder->where('vcourse.created_at', '>=', "{$start_time}" . ' 00:00:00');
         }
 
         //上线时间
         if ($stop_time = $request->input('e_time')) {
-            $builder->where('created_at', '<=', "{$stop_time}" . ' 23:59:59');
+            $builder->where('vcourse.created_at', '<=', "{$stop_time}" . ' 23:59:59');
         }
 
         //讲师
