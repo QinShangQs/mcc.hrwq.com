@@ -31,7 +31,7 @@ class VipController extends Controller
         $builder = Vip::select('vip.*')->orderBy('id', 'desc')->with('user');
         //和会员激活码
         if ($code = trim($request->input('code'))) {
-            $builder->where('code', '=', $code);
+            $builder->where('code', 'like', '%' . $code . '%');
         }
         //是否被激活 1否 2是
         if ($is_activated = trim($request->input('is_activated'))) {
