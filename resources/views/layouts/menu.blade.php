@@ -65,7 +65,8 @@
                     <ul>
                         <li class="left_15"><a href="{{route('vip.price_edit',['id'=>1])}}" >和会员价格维护</a></li>
                         <li class="left_15"><a href="{{route('vip.index')}}">和会员激活码维护</a></li>
-                    </ul>
+                	<li class="left_15"><a href="{{route('vip.tv_index')}}">直播激活码维护</a></li>
+		    </ul>
                 </li>
             </ul>
         </li>

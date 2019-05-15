@@ -238,6 +238,15 @@ Route::group(['middleware' => 'auth'],function (){
 
         Route::get('/price_edit/{id}', 'VipController@price_edit')->name('vip.price_edit');
         Route::post('/price_edit/{id}', 'VipController@price_update')->name('vip.price_update');
+        
+        Route::get('/tv_index', 'VipTvController@index')->name('vip.tv_index');
+        Route::get('/tv_create', 'VipTvController@create')->name('vip.tv_create');
+        Route::post('/tv_create', 'VipTvController@store')->name('vip.tv_store');
+        Route::get('/tv_edit/{id}', 'VipTvController@edit')->name('vip.tv_edit');
+        Route::post('/tv_edit/{id}', 'VipTvController@update')->name('vip.tv_update');
+        Route::post('/tv_delete/{id}', 'VipTvController@delete')->name('vip.tv_delete');
+        Route::get('/tv_import','VipTvController@import')->name('vip.tv_import');
+        Route::post('/tv_import','VipTvController@do_import')->name('vip.tv_do_import');
 
     });
 
