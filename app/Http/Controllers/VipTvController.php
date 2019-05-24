@@ -39,7 +39,7 @@ class VipTvController extends Controller {
         if ($request->input('export')) {
             $data = [
                 ['ID', '直播激活码',
-                    '是否被激活', '导入时间',
+                    '是否被领取', '导入时间',
                     '用户昵称', '激活时间'
                 ],
             ];

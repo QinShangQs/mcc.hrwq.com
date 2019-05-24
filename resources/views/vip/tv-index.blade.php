@@ -37,7 +37,7 @@
                                 <div class="dtp-container fg-line">
                                     <div class="select">
                                         <select class="selectpicker" name="is_activated">
-                                            <option value="">是否被激活</option>
+                                            <option value="">是否被领取</option>
                                                 <option value="1" @if(request('is_activated')==1) selected @endif>否</option>
                                                 <option value="2" @if(request('is_activated')==2) selected @endif>是</option>
                                         </select>
@@ -49,7 +49,7 @@
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
                                 <div class="dtp-container fg-line">
-                                    <input type="text" class="date-picker form-control" name='s_time' value="{{ request('s_time') }}" placeholder="激活时间段-开始">
+                                    <input type="text" class="date-picker form-control" name='s_time' value="{{ request('s_time') }}" placeholder="领取时间段-开始">
                                 </div>
                             </div>
                         </div>
@@ -57,7 +57,7 @@
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
                                 <div class="dtp-container fg-line">
-                                    <input type="text" class="date-picker form-control" name='e_time' value="{{ request('e_time') }}" placeholder="激活时间段-截止">
+                                    <input type="text" class="date-picker form-control" name='e_time' value="{{ request('e_time') }}" placeholder="领取时间段-截止">
                                 </div>
                             </div>
                         </div>
@@ -95,7 +95,7 @@
                         </th>
                         <th>ID</th>
                         <th>直播激活码</th>
-                        <th>是否被激活</th>
+                        <th>是否被领取</th>
                         <th>用户昵称</th>
                         <th>激活时间</th>
                         <th>操作</th>
@@ -114,7 +114,7 @@
                                 </td>
                                 <td>{{$item->id}}</td>
                                 <td>{{$item->code}}</td>
-                                <td>@if($item->is_activated ==1 )未激活@else已激活@endif</td>
+                                <td>@if($item->is_activated ==1 )未领取@else已领取@endif</td>
                                 <td>@if($item->user) 
                                     <a href='/user/show/{{$item->user->id}}'>{{$item->user->nickname}}</a> 
                                     @endif
