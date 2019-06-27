@@ -251,10 +251,10 @@ class UserController extends Controller {
         $id = $request->input('id');
         $mobile = $request->input('mobile');
         $oldMobileUser = User::where(['mobile' => $mobile])->first();
-        if(!empty($oldMobileUser) && $oldMobileUser->id != $id){
-            return redirect()->back()->withInput()->withErrors('手机号已被' .$oldMobileUser->nickname. "绑定");
+        if (!empty($oldMobileUser) && $oldMobileUser->id != $id) {
+            return redirect()->back()->withInput()->withErrors('手机号已被' . $oldMobileUser->nickname . "绑定");
         }
-        
+
         $user = User::find($id);
         $originalRole = $user->role;
 
@@ -279,37 +279,45 @@ class UserController extends Controller {
             if (($originalRole == 1 || $originalRole == 3) && $request->input('role') == 2) {
                 //发送微信模板消息通知
                 if (config('app.debug') === false) {
-                    $notice = Wechat::notice();
-                    $messageId = $notice->send([
-                        'touser' => $user->openid,
-                        'template_id' => '2FBf-IuHdd0Jptwxrn-1NfjJMVORVqAKx4HuevfsjpI',
-                        'url' => front_url('tutor/complete'),
-                        'topcolor' => '#f7f7f7',
-                        'data' => [
-                            'first' => '身份变更',
-                            'keyword1' => '完善指导师资料',
-                            'keyword2' => '待完善',
-                            'remark' => '点击前往完善指导师资料,审核通过后方能成为指导师。'
-                        ],
-                    ]);
+                    try {
+                        $notice = Wechat::notice();
+                        $messageId = $notice->send([
+                            'touser' => $user->openid,
+                            'template_id' => '2FBf-IuHdd0Jptwxrn-1NfjJMVORVqAKx4HuevfsjpI',
+                            'url' => front_url('tutor/complete'),
+                            'topcolor' => '#f7f7f7',
+                            'data' => [
+                                'first' => '身份变更',
+                                'keyword1' => '完善指导师资料',
+                                'keyword2' => '待完善',
+                                'remark' => '点击前往完善指导师资料,审核通过后方能成为指导师。'
+                            ],
+                        ]);
+                    } catch (\Exception $e) {
+                        
+                    }
                 }
             }
             if (($originalRole == 1 || $originalRole == 2) && $request->input('role') == 3) {
                 //发送微信模板消息通知
                 if (config('app.debug') === false) {
-                    $notice = Wechat::notice();
-                    $messageId = $notice->send([
-                        'touser' => $user->openid,
-                        'template_id' => '2FBf-IuHdd0Jptwxrn-1NfjJMVORVqAKx4HuevfsjpI',
-                        'url' => front_url('partner/complete'),
-                        'topcolor' => '#f7f7f7',
-                        'data' => [
-                            'first' => '身份变更',
-                            'keyword1' => '完善合伙人资料',
-                            'keyword2' => '待完善',
-                            'remark' => '点击前往完善合伙人资料,审核通过后方能成为合伙人。'
-                        ],
-                    ]);
+                    try {
+                        $notice = Wechat::notice();
+                        $messageId = $notice->send([
+                            'touser' => $user->openid,
+                            'template_id' => '2FBf-IuHdd0Jptwxrn-1NfjJMVORVqAKx4HuevfsjpI',
+                            'url' => front_url('partner/complete'),
+                            'topcolor' => '#f7f7f7',
+                            'data' => [
+                                'first' => '身份变更',
+                                'keyword1' => '完善合伙人资料',
+                                'keyword2' => '待完善',
+                                'remark' => '点击前往完善合伙人资料,审核通过后方能成为合伙人。'
+                            ],
+                        ]);
+                    } catch (\Exception $e) {
+                        
+                    }
                 }
             }
             return redirect()->route('user.index');
@@ -392,7 +400,7 @@ class UserController extends Controller {
     public function leftday_show($id) {
         $user = User::with(['user_point_vip' => function ($query) {
                         $query->orderBy('id', 'desc');
-                }])->find($id);
+                    }])->find($id);
         //dd($user);
         if ($user == null)
             abort(404, '查找失败！');
