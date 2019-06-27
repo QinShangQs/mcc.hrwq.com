@@ -99,6 +99,8 @@
                         <th>是否被激活</th>
                         <th>用户昵称</th>
                         <th>激活时间</th>
+                        <th>会员天数</th>
+                        <th>仅限首次</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -121,6 +123,8 @@
                                     @endif
                                 </td>
                                 <td>@if($item->user) {{$item->updated_at}} @endif</td>
+                                <td>{{$item->days}}</td>
+                                <td>{{$item->allow_only == 1 ? '是':'否'}}</td>
                                 <td>
                                     <!-- <a href="{{ route('vip.edit',['id'=>$item->id]) }}" title="修改">
                                         <button type="button" class="btn bgm-orange waves-effect">

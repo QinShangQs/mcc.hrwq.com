@@ -56,7 +56,7 @@ class VipController extends Controller
             $data = [
                 [   'ID', '和会员激活码',
                     '是否被激活', '导入时间',
-                    '用户昵称','激活时间'
+                    '用户昵称','激活时间','会员天数','仅限首次'
                 ],
             ];
             $builder->chunk(100, function($codes) use(&$data) {
@@ -67,7 +67,9 @@ class VipController extends Controller
                         $code->is_activated,
                         $code->created_at,
                         @$code->user->nickname,
-                        (!empty($code->user) ? $code->updated_at : '')
+                        (!empty($code->user) ? $code->updated_at : ''),
+                        $code->days,
+                        ($code->allow_only == Vip::ALLOW_ONLY_YES ? '是':'否')
                     ];
                 }
             });
@@ -106,7 +108,7 @@ class VipController extends Controller
         ]);
         for ($i = 1; $i <= 10; $i++) {
             if ($request->input('code' . $i) && !empty($request->input('code' . $i))) {
-                $this->_save_code($request->input('code' . $i));
+                $this->_save_code([$request->input('code' . $i)]);
             }
         }
         return redirect()->route('vip.index');
@@ -144,10 +146,9 @@ class VipController extends Controller
         } else {
             Excel::load($filePath, function ($reader) {
                 $data = $reader->getSheet(0)->toArray();
-
                 foreach ($data as $key => $value) {
                     if ($key > 0) {
-                        $this->_save_code($value[0]);
+                        $this->_save_code($value);
                     }
                 }
             });//解决导出来的文件无法导入的问题     },'utf-8');
@@ -190,12 +191,18 @@ class VipController extends Controller
     }
 
     //排重，最后优化批量插入  insert
-    private function _save_code($code)
+    private function _save_code($code_data)
     {
+        $code = $code_data[0];
+        $days = isset($code_data[1]) ? $code_data[1]: Vip::DEAFULT_DAYS;
+        $allowOnly = (isset($code_data[2]) && $code_data[2] === '是') ? Vip::ALLOW_ONLY_YES : Vip::ALLOW_ONLY_NO;
+        
         if (!Vip::withTrashed()->where('code', $code)->first()) {
             $vip = new Vip;
             $vip->code = $code;
             $vip->is_activated = 1;
+            $vip->allow_only = $allowOnly;
+            $vip->days = $days;
             $vip->save();
         }
     }
