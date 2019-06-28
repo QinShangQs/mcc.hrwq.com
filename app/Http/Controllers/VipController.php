@@ -82,7 +82,7 @@ class VipController extends Controller
                 $vips->appends($input, $value);
             }
         }
-        return view('vip.index', ['vips' => $vips]);
+        return view('vip.index', ['vips' => $vips,'forever_vip_code' => config('constants.forever_vip_code')]);
     }
 
     private function export($title, $data)

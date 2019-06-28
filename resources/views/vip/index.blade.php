@@ -123,7 +123,13 @@
                                     @endif
                                 </td>
                                 <td>@if($item->user) {{$item->updated_at}} @endif</td>
-                                <td>{{$item->days}}</td>
+                                <td>
+                                    @if(in_array($item->code, $forever_vip_code))
+                                     永久
+                                    @else
+                                        {{$item->days}}
+                                    @endif
+                                </td>
                                 <td>{{$item->allow_only == 1 ? '是':'否'}}</td>
                                 <td>
                                     <!-- <a href="{{ route('vip.edit',['id'=>$item->id]) }}" title="修改">
