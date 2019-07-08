@@ -1,15 +1,15 @@
 <?php
+
 /**
  * 和会员产品管理
  */
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Auth;
-
 use App\Models\Course;
 use App\Models\CourseComment;
 use App\Models\Area;
@@ -17,17 +17,15 @@ use App\Models\Agency;
 use App\Models\User;
 use App\Models\Vip;
 use App\Models\Config;
-
 use Excel;
 
 set_time_limit(0);
 
-class VipController extends Controller
-{
+class VipController extends Controller {
 
     // 和会员激活码列表
-    public function index(Request $request)
-    {
+    public function index(Request $request) {
+        $forever_vip_code = config('constants.forever_vip_code');
         $builder = Vip::select('vip.*')->orderBy('id', 'desc')->with('user');
         //和会员激活码
         if ($code = trim($request->input('code'))) {
@@ -45,33 +43,46 @@ class VipController extends Controller
         if ($e_time = trim($request->input('e_time'))) {
             $builder->where('updated_at', '<=', $e_time);
         }
-        
+
         if ($nickname = trim($request->input('nickname'))) {
             $builder->whereHas('user', function ($query) use ($nickname) {
-        	$query->where('nickname', 'like', '%' . $nickname . '%');
+                $query->where('nickname', 'like', '%' . $nickname . '%');
             });
         }
-        
+
+        if ($days = trim($request->input('days'))) {
+            if ($days === '永久') {
+                $builder->whereIn('code', $forever_vip_code);
+            } else {
+                $builder->where('days', '=', $days);
+            }
+        }
+
+        if ($allow_only = trim($request->input('allow_only'))) {
+            $builder->where('allow_only', '=', $allow_only);
+        }
+
         if ($request->input('export')) {
             $data = [
-                [   'ID', '和会员激活码',
+                    ['ID', '和会员激活码',
                     '是否被激活', '导入时间',
-                    '用户昵称','激活时间','会员天数','仅限首次'
+                    '用户昵称', '激活时间', '会员天数', '仅限首次'
                 ],
             ];
             $builder->chunk(100, function($codes) use(&$data) {
-                if ($codes) foreach ($codes as $code) {
-                    $data[] = @[
-                        $code->id,
-                        ($code->code == 1 ? "否":"是"),
-                        $code->is_activated,
-                        $code->created_at,
-                        @$code->user->nickname,
-                        (!empty($code->user) ? $code->updated_at : ''),
-                        $code->days,
-                        ($code->allow_only == Vip::ALLOW_ONLY_YES ? '是':'否')
-                    ];
-                }
+                if ($codes)
+                    foreach ($codes as $code) {
+                        $data[] = @[
+                            $code->id,
+                            ($code->code == 1 ? "否" : "是"),
+                            $code->is_activated,
+                            $code->created_at,
+                            @$code->user->nickname,
+                            (!empty($code->user) ? $code->updated_at : ''),
+                            $code->days,
+                            ($code->allow_only == Vip::ALLOW_ONLY_YES ? '是' : '否')
+                        ];
+                    }
             });
             return $this->export('和会员激活码列表', $data);
         }
@@ -82,28 +93,25 @@ class VipController extends Controller
                 $vips->appends($input, $value);
             }
         }
-        return view('vip.index', ['vips' => $vips,'forever_vip_code' => config('constants.forever_vip_code')]);
+        return view('vip.index', ['vips' => $vips, 'forever_vip_code' => $forever_vip_code]);
     }
 
-    private function export($title, $data)
-    {
-        return Excel::create($title.'-'.date('Ymd'), function($excel) use($title,$data) {
-            $excel->sheet(str_replace('列表','',$title), function($sheet) use($data) {
-                $sheet->rows($data);
-            });
-        })->download('xlsx');
+    private function export($title, $data) {
+        return Excel::create($title . '-' . date('Ymd'), function($excel) use($title, $data) {
+                    $excel->sheet(str_replace('列表', '', $title), function($sheet) use($data) {
+                        $sheet->rows($data);
+                    });
+                })->download('xlsx');
     }
 
-    public function create()
-    {
+    public function create() {
         return view('vip.create');
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $this->validate($request, [
             'code' . 1 => 'required'
-        ], [], [
+                ], [], [
             'code' . 1 => '激活码' . 1
         ]);
         for ($i = 1; $i <= 10; $i++) {
@@ -114,10 +122,8 @@ class VipController extends Controller
         return redirect()->route('vip.index');
     }
 
-
     /** 删除激活码 */
-    public function delete(Request $request)
-    {
+    public function delete(Request $request) {
         $id = $request->input('id');
 
         $del_ids = explode(',', trim($id, ','));
@@ -127,19 +133,16 @@ class VipController extends Controller
         } else {
             return response()->json(['code' => 0, 'message' => '删除成功!']);
         }
-
     }
 
     //Excel文件导入功能
-    public function import()
-    {
+    public function import() {
 
         return view('vip.import');
     }
 
     //Excel文件导入功能
-    public function do_import(Request $request)
-    {
+    public function do_import(Request $request) {
         $filePath = $request->file('file');
         if ($filePath == null) {
             return redirect()->back()->withInput()->withErrors('请选择EXCEL文件！');
@@ -151,15 +154,13 @@ class VipController extends Controller
                         $this->_save_code($value);
                     }
                 }
-            });//解决导出来的文件无法导入的问题     },'utf-8');
+            }); //解决导出来的文件无法导入的问题     },'utf-8');
             return redirect()->route('vip.index');
         }
     }
 
-
     /** 和会员价格维护 页面 */
-    public function price_edit($id)
-    {
+    public function price_edit($id) {
         $id = intval($id);
 
         $config_price = Config::find($id);
@@ -172,11 +173,10 @@ class VipController extends Controller
     }
 
     /** 和会员价格编辑 */
-    public function price_update(Request $request)
-    {
+    public function price_update(Request $request) {
         $this->validate($request, [
             'vip_price' => 'required|numeric'
-        ], [], [
+                ], [], [
             'vip_price' => '和会员价格'
         ]);
         $id = $request->input('id');
@@ -191,12 +191,11 @@ class VipController extends Controller
     }
 
     //排重，最后优化批量插入  insert
-    private function _save_code($code_data)
-    {
+    private function _save_code($code_data) {
         $code = $code_data[0];
-        $days = isset($code_data[1]) ? $code_data[1]: Vip::DEAFULT_DAYS;
+        $days = isset($code_data[1]) ? $code_data[1] : Vip::DEAFULT_DAYS;
         $allowOnly = (isset($code_data[2]) && $code_data[2] === '是') ? Vip::ALLOW_ONLY_YES : Vip::ALLOW_ONLY_NO;
-        
+
         if (!Vip::withTrashed()->where('code', $code)->first()) {
             $vip = new Vip;
             $vip->code = $code;
