@@ -71,6 +71,31 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        <div class="col-sm-2">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="zmdi zmdi-daydream-setting"></i></span>
+                                <div class="dtp-container fg-line">
+                                    <input type="text" class="form-control" placeholder="天数或永久" name='days'
+                                           value="{{ request('days') }}">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-sm-2">
+                            <div class="input-group form-group">
+                                <span class="input-group-addon"><i class="zmdi zmdi-caret-down-circle zmdi-hc-fw"></i></span>
+                                <div class="dtp-container fg-line">
+                                    <div class="select">
+                                        <select class="selectpicker" name="allow_only">
+                                            <option value="">仅限首次</option>
+                                                <option value="1" @if(request('allow_only')==1) selected @endif>是</option>
+                                                <option value="2" @if(request('allow_only')==2) selected @endif>否</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-sm-2">
                             <div class="text-right form-group">
                                 <button type="submit" class="btn btn-primary btn-sm  waves-effect">搜索</button>
