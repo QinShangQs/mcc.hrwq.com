@@ -188,6 +188,15 @@
                         </div>
                     </div>
                 </div>
+                
+                 <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group fg-line ">
+                            <label for="exampleInputEmail1">孩子年龄</label>
+                            <input type="text" disabled="disabled" value="{{ $user->c_age }}" name="c_birth"  class="form-control input-sm">
+                        </div>
+                    </div>
+                </div>
 
                 <div class="row">
                     <div class="col-sm-3">
