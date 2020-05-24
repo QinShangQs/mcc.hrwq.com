@@ -76,6 +76,13 @@ class UserController extends Controller {
         if ($search_lover_time_e = trim($request->input('search_lover_time_e'))) {
             $builder->where('lover_time', '<=', $search_lover_time_e . " 23:59:59");
         }
+        
+        if ($search_grow_s = trim($request->input('search_cage_s'))) {
+            $builder->where('c_age', '>=', $search_grow_s);
+        }
+        if ($search_grow_e = trim($request->input('search_cage_e'))) {
+            $builder->where('c_age', '<=', $search_grow_e);
+        }
 
         //爱心大使
         if ($lover_key = trim($request->input('lover_key'))) {

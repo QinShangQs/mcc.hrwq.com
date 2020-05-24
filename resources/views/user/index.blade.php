@@ -226,6 +226,26 @@
                             </div>
                         </div>
                     </div>
+                    
+                    <div class="col-sm-2">
+                        <div class="input-group form-group">
+                            <span class="input-group-addon"><i class="zmdi zmdi-trending-up"></i></span>
+                            <div class="dtp-container fg-line">
+                                <input type="text" class="form-control" placeholder="孩子年龄(大于)" name='search_cage_s'
+                                       value="{{ request('search_cage_s') }}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <div class="input-group form-group">
+                            <span class="input-group-addon"><i class="zmdi zmdi-trending-up"></i></span>
+                            <div class="dtp-container fg-line">
+                                <input type="text" class="form-control" placeholder="孩子年龄(小于)" name='search_cage_e'
+                                       value="{{ request('search_cage_e') }}">
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="col-sm-2 text-right">
                         <button type="submit" class="btn btn-primary btn-xs  waves-effect">搜索</button>
@@ -253,6 +273,7 @@
                         <th>是否为和会员</th>
                         <th>和会员天数</th>
                         <th>爱心大使</th>
+                        <th>孩子年龄</th>
                         <th>操作</th>
                         <th>禁用/启用</th>
                     </tr>
@@ -274,6 +295,7 @@
                         <td>@if($item->vip_flg){{$user_vip_flg[$item->vip_flg]}}@endif</td>
                         <td>{{vip_left_day_text($item->vip_forever,$item->vip_left_day)}}</td>
                         <td>@if($item->lover){{$item->lover->nickname}}/{{$item->lover->mobile}}@endif</td>
+                        <td>@if($item->c_age){{$item->c_age}}@endif</td>
                         <td>
                             <a href="{{ route('user.show',['id'=>$item->id]) }}" class="btn bgm-orange waves-effect btn-xs" title="详情">
                                 <i class="zmdi zmdi-eye"></i>
