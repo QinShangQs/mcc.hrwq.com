@@ -523,11 +523,11 @@ class OrderController extends Controller
         }
         //开始时间
         if ($s_time = trim($request->input('s_time'))) {
-            $builder->where('created_at', '>=', $s_time);
+            $builder->where('pay_time', '>=', $s_time);
         }
         //结束时间
         if ($e_time = trim($request->input('e_time'))) {
-            $builder->where('created_at', '<=', $e_time);
+            $builder->where('pay_time', '<=', $e_time);
         }
 
         $builder->wherePayType('6');
